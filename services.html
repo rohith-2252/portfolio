@@ -7,18 +7,70 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <div class="logo">AD</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html" class="active">Services</a>
-      <a href="about.html">About me</a>
-      <a href="projects.html">Projects</a>
-    </nav>
-    <a href="#" class="btn-contact">Contact me</a>
-  </header>
-  <main class="page-content">
-    <h1>My Services</h1>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <a href="index.html">
+        <div><img src="images/image.png" class="logo-img"></div>
+        <div><img src="images/image2.png" class="logo-img-hover"></div>
+      </a>
+    </div>
+
+    <div class="header-right">
+      <div><a href="index.html">Home</a></div>
+      <div><a href="services.html" class="active">Services</a></div>
+      <div><a href="about.html">About me</a></div>
+      <div><a href="projects.html">Projects</a></div>
+      <div><a href="tel:9345726530" class="btn-contact">Contact me</a></div>
+    </div>
+
+    <div class="hamburger">☰</div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="services-section">
+
+    <h1 class="services-title">My Services</h1>
+
+    <div class="services-container">
+
+      <div class="service-card">
+        <div class="icon">💻</div>
+        <h2>Web Development</h2>
+        <p>I build responsive and high-performance websites using modern technologies like MERN stack.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">🎨</div>
+        <h2>UI/UX Design</h2>
+        <p>Designing clean and user-friendly interfaces with a focus on user experience and accessibility.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">⚙️</div>
+        <h2>Backend Development</h2>
+        <p>Creating scalable APIs and secure backend systems using Node.js and databases.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">🚀</div>
+        <h2>Performance Optimization</h2>
+        <p>Improving website speed, SEO, and performance for better user engagement.</p>
+      </div>
+
+    </div>
+
   </main>
+  <div class="footer-bar">
+  <div class="footer-center">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+  </div>
+</div>
+
 </body>
+<script src="script.js">  </script>
 </html>
