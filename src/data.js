@@ -119,12 +119,15 @@ export const SERVICES = [
 
 export const PROJECTS = [
   {
-    title: "Face Recognition Attendance System",
-    date: "Jan 2026",
-    desc: "AI-powered attendance management using facial recognition technology for secure and automated attendance.",
-    tags: ["AI", "Software"],
-    stack: ["Python", "OpenCV", "Face Recognition", "SQLite"],
+    title: "MEDI CARE - AI Assitance Chatbot",
+    subtitle: "Web Application & Mobile Application",
+    date: "Feb 2026",
+    desc: "A complete Medical Resource platform with responsive frontend, backend APIs, authentication, and database integration.",
+    tags: ["Full Stack", "Web", "Mobile"],
+    stack: ["React", "Node.js", "MYSQL", "REST API"],
     image: "face",
+    codelink:"https://github.com/rohith-2252/mediCare",
+    projectlink:"https://medicare-frontend-q2po.onrender.com/login",
   },
   {
     title: "EVEREST — E-Commerce Platform",
@@ -134,6 +137,18 @@ export const PROJECTS = [
     tags: ["Full Stack", "Web", "Mobile"],
     stack: ["React", "Node.js", "MongoDB", "REST API"],
     image: "ecommerce",
+    codelink:"https://github.com/rohith-2252/Everest_Ecommerce",
+    projectlink:"https://everestecommerce.onrender.com/",
+  },
+    {
+    title: "Face Recognition Attendance System",
+    date: "Jan 2026",
+    desc: "AI-powered attendance management using facial recognition technology for secure and automated attendance.",
+    tags: ["AI", "Software"],
+    stack: ["Python", "OpenCV", "Face Recognition", "SQLite"],
+    image: "face",
+    codelink: "https://github.com/rohith-2252/FACE-RECOGNIZATION-USING-PYTHON",
+    projectlink:"https://github.com/rohith-2252/FACE-RECOGNIZATION-USING-PYTHON",
   },
   {
     title: "AI-Powered Student Career Guidance Platform",
@@ -142,6 +157,8 @@ export const PROJECTS = [
     tags: ["AI", "Full Stack"],
     stack: ["Prompt Engineering", "LLMs", "React", "Node.js"],
     image: "career",
+    codelink:"https://github.com/rohith-2252/Chatbot",
+    projectlink:"https://chatbot-k9az.onrender.com",
   },
   {
     title: "Employee Management System",
@@ -151,6 +168,8 @@ export const PROJECTS = [
     tags: ["Java", "Software"],
     stack: ["Java", "JDBC", "MySQL", "OOP"],
     image: "employee",
+    codelink:"https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
+    projectlink:"https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
   },
 ];
 
@@ -160,32 +179,38 @@ export const ACHIEVEMENTS = [
   {
     icon: "medal",
     title: "Certifications",
-    desc: "Professional certifications in software development & AI (coming soon).",
+    desc: "Professional certifications in software development & AI .",
+    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "trophy",
     title: "Hackathons",
     desc: "Participation and wins in coding hackathons (to be added).",
+    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "code",
     title: "Coding Achievements",
     desc: "Milestones across competitive programming platforms.",
+    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "award",
     title: "Awards",
     desc: "Recognitions and awards earned along the way (to be added).",
+    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "leetcode",
     title: "LeetCode",
     desc: "Problem-solving progress and streaks on LeetCode.",
+    link:"https://leetcode.com/u/Rohith_Rohan/",
   },
   {
     icon: "github",
     title: "GitHub Contributions",
     desc: "Consistent contributions and open-source activity.",
+    link:"https://github.com/rohith-2252",
   },
 ];
 
@@ -193,8 +218,8 @@ export const CONTACT = {
   email: "rohith.r2252@gmail.com",
   phone: "+91 93457 26530",
   phoneHref: "+919345726530",
-  portfolio: "rohith-2252.github.io/portfolio",
-  portfolioHref: "https://rohith-2252.github.io/portfolio/",
+  portfolio: "portfolio-cw93.onrender.com/",
+  portfolioHref: "https://portfolio-cw93.onrender.com/",
   linkedin: "in/rohith-r-it-student",
   linkedinHref: "https://www.linkedin.com/in/rohith-r-it-student",
   github: "github.com/rohith-2252",

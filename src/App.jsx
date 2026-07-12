@@ -26,7 +26,7 @@ export default function App() {
   }, [theme]);
 
   return (
-    <div className={`relative min-h-screen z-0 overflow-x-hidden ${theme === "light" ? "bg-slate-50" : "bg-ink-900"}`}>
+    <div className={`relative min-h-screen z-0 overflow-x-hidden ${theme === "light" ? "bg-blue-900": "bg-ink-900"}`}>
       <Loader show={loading} />
       <NetworkBackground />
       <Navbar theme={theme} toggleTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} />

@@ -2,17 +2,47 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CONTACT } from "../data";
 import { SectionHeading } from "./Education";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+const onSubmit = async (e) => {
+  e.preventDefault();
+
+  setStatus("sending");
+
+  try {
+    await emailjs.send(
+      "service_gpzgtk9",
+      "template_16ij1tl",
+      {
+        from_name: form.name,
+        from_email: form.email,
+        subject: form.subject,
+        message: form.message,
+      },
+      "wOgCUqvkrh1h3V3SU"
+    );
+
     setStatus("sent");
-    setTimeout(() => setStatus("idle"), 3000);
-    setForm({ name: "", email: "", subject: "", message: "" });
-  };
+
+    setForm({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+
+    setTimeout(() => {
+      setStatus("idle");
+    }, 3000);
+  } catch (err) {
+    console.log(err);
+    setStatus("error");
+  }
+};
 
   return (
     <section id="contact" className="relative px-6 py-28">
@@ -70,10 +100,17 @@ export default function Contact() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               type="submit"
-              className="glow-btn mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-sm font-semibold text-ink-950"
+              disabled={status === "sending"}
+              className="glow-btn mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-sm font-semibold text-ink-950 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <SendIcon />
-              {status === "sent" ? "Message Sent!" : "Send Message"}
+              {status === "sending"
+                ? "Sending..."
+                : status === "sent"
+                ? "Message Sent!"
+                : status === "error"
+                ? "Failed!"
+                : "Send Message"}
             </motion.button>
           </motion.form>
 

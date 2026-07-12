@@ -83,12 +83,12 @@ function ProjectCard({ project }) {
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/20 to-transparent" />
 
         <div className="absolute inset-0 flex items-center justify-center gap-3 bg-ink-950/60 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur">
+          <a href={project.codelink}><span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur">
             <GitHubIcon /> Code
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-4 py-2 text-xs font-semibold text-ink-950">
+          </span></a>
+          <a href={project.projectlink}><span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-4 py-2 text-xs font-semibold text-ink-950">
             <ExternalIcon /> Demo
-          </span>
+          </span></a>
         </div>
       </div>
 

@@ -103,7 +103,7 @@ export default function Hero() {
             className="mt-8 flex flex-wrap items-center gap-4"
           >
             <a
-              href="/resume.pdf"
+              href="../../resource/Rohith_R_Software_Engineer_Resume.pdf"
               download
               className="glow-btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-sm font-semibold text-ink-950 transition-transform hover:scale-[1.03] active:scale-95"
             >
@@ -185,7 +185,7 @@ function FloatingIcon({ children, className, delay }) {
 const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/rohith-r-it-student", icon: <LinkedInIcon /> },
   { label: "GitHub", href: "https://github.com/rohith-2252/", icon: <GitHubIcon /> },
-  { label: "Portfolio", href: "https://rohith-2252.github.io/portfolio/", icon: <LinkIcon /> },
+  { label: "Portfolio", href: "https://portfolio-cw93.onrender.com/", icon: <LinkIcon /> },
   { label: "Email", href: "mailto:rohith.r2252@gmail.com", icon: <MailIcon /> },
 ];
 

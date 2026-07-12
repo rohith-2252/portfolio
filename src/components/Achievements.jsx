@@ -33,7 +33,7 @@ export default function Achievements() {
                     i % 2 === 0 ? "-right-[31.5px]" : "-left-[31.5px]"
                   }`}
                 />
-                <motion.div
+                <a href ={item.link}> <motion.div
                   initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -48,7 +48,7 @@ export default function Achievements() {
                     {item.title}
                   </h3>
                   <p className="mt-1.5 text-sm text-slate-400">{item.desc}</p>
-                </motion.div>
+                </motion.div></a>
               </div>
             ))}
           </div>
