@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ROLES } from "../data";
 import profile from "../assets/profile.png";
+import resume from "../../resource/Rohith_R_FullStack_Developer_Resume.pdf";
 
 function useTypewriter(words, { typeSpeed = 70, deleteSpeed = 40, pause = 1400 } = {}) {
   const [index, setIndex] = useState(0);
@@ -102,14 +103,15 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 flex flex-wrap items-center gap-4"
           >
-          <a
-            href="../../resource/Rohith_R_FullStack_Developer_Resume.pdf"
-            download="Rohith_R_FullStack_Developer_Resume.pdf"
-            className="glow-btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-sm font-semibold text-ink-950 transition-transform hover:scale-[1.03] active:scale-95"
-          >
-            <DownloadIcon />
-            Download Resume
-          </a>
+
+<a
+  href={resume}
+  download="Rohith_R_FullStack_Developer_Resume.pdf"
+  className="glow-btn inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-sm font-semibold text-ink-950 transition-transform hover:scale-[1.03] active:scale-95"
+>
+  <DownloadIcon />
+  Download Resume
+</a>
             <button
               onClick={() =>
                 document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
