@@ -107,7 +107,6 @@ export const SERVICES = [
     desc: "Developing responsive full-stack web applications using modern technologies.",
     icon: "layers",
     chips: ["React", "Node", "Express", "MongoDB", "Authentication", "REST API", "JWT", "Tailwind"],
-    featured: true,
   },
   {
     title: "Gen AI Integration",
@@ -126,8 +125,8 @@ export const PROJECTS = [
     tags: ["Full Stack", "Web", "Mobile"],
     stack: ["React", "Node.js", "MYSQL", "REST API"],
     image: "face",
-    codelink:"https://github.com/rohith-2252/mediCare",
-    projectlink:"https://medicare-frontend-q2po.onrender.com/login",
+    codelink: "https://github.com/rohith-2252/mediCare",
+    projectlink: "https://medicare-frontend-q2po.onrender.com/login",
   },
   {
     title: "EVEREST — E-Commerce Platform",
@@ -137,10 +136,10 @@ export const PROJECTS = [
     tags: ["Full Stack", "Web", "Mobile"],
     stack: ["React", "Node.js", "MongoDB", "REST API"],
     image: "ecommerce",
-    codelink:"https://github.com/rohith-2252/Everest_Ecommerce",
-    projectlink:"https://everestecommerce.onrender.com/",
+    codelink: "https://github.com/rohith-2252/Everest_Ecommerce",
+    projectlink: "https://everestecommerce.onrender.com/",
   },
-    {
+  {
     title: "Face Recognition Attendance System",
     date: "Jan 2026",
     desc: "AI-powered attendance management using facial recognition technology for secure and automated attendance.",
@@ -148,7 +147,7 @@ export const PROJECTS = [
     stack: ["Python", "OpenCV", "Face Recognition", "SQLite"],
     image: "face",
     codelink: "https://github.com/rohith-2252/FACE-RECOGNIZATION-USING-PYTHON",
-    projectlink:"https://github.com/rohith-2252/FACE-RECOGNIZATION-USING-PYTHON",
+    projectlink: "https://github.com/rohith-2252/FACE-RECOGNIZATION-USING-PYTHON",
   },
   {
     title: "AI-Powered Student Career Guidance Platform",
@@ -157,8 +156,8 @@ export const PROJECTS = [
     tags: ["AI", "Full Stack"],
     stack: ["Prompt Engineering", "LLMs", "React", "Node.js"],
     image: "career",
-    codelink:"https://github.com/rohith-2252/Chatbot",
-    projectlink:"https://chatbot-k9az.onrender.com",
+    codelink: "https://github.com/rohith-2252/Chatbot",
+    projectlink: "https://chatbot-k9az.onrender.com",
   },
   {
     title: "Employee Management System",
@@ -168,9 +167,21 @@ export const PROJECTS = [
     tags: ["Java", "Software"],
     stack: ["Java", "JDBC", "MySQL", "OOP"],
     image: "employee",
-    codelink:"https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
-    projectlink:"https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
+    codelink: "https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
+    projectlink: "https://github.com/rohith-2252/Employee-Management-Using-JAVA-and-MYSQL",
   },
+  {
+    title: "Online Bonafide Request Management System",
+    subtitle: "Department Bonafide Management Portal",
+    date: "Jul 2026",
+    desc: "The system helps the department reduce manual work and provides a faster and more transparent Bonafide request process.",
+    tags: ["Full Stack", "Web"],
+    stack: ["React", "Node.js", "PostgreSQL", "REST API"],
+    image: "career",
+    codelink: "https://github.com/rohith-2252/bonofide-updation",
+    projectlink: "https://drive.google.com/file/d/1THiEncxvFEZxhVybn4NlIk_xQ2Du-ziI/view?usp=sharing",
+  },
+
 ];
 
 export const FILTERS = ["All", "Java", "AI", "Full Stack", "Web", "Mobile", "Software"];
@@ -180,37 +191,37 @@ export const ACHIEVEMENTS = [
     icon: "medal",
     title: "Certifications",
     desc: "Professional certifications in software development & AI .",
-    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
+    link: "https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "trophy",
     title: "Hackathons",
     desc: "Participation and wins in coding hackathons (to be added).",
-    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
+    link: "https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "code",
     title: "Coding Achievements",
     desc: "Milestones across competitive programming platforms.",
-    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
+    link: "https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "award",
     title: "Awards",
     desc: "Recognitions and awards earned along the way (to be added).",
-    link:"https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
+    link: "https://drive.google.com/drive/folders/1KPkFRgruO_o49jbuSs4gDVjy5po7IYMs?usp=sharing",
   },
   {
     icon: "leetcode",
     title: "LeetCode",
     desc: "Problem-solving progress and streaks on LeetCode.",
-    link:"https://leetcode.com/u/Rohith_Rohan/",
+    link: "https://leetcode.com/u/Rohith_Rohan/",
   },
   {
     icon: "github",
     title: "GitHub Contributions",
     desc: "Consistent contributions and open-source activity.",
-    link:"https://github.com/rohith-2252",
+    link: "https://github.com/rohith-2252",
   },
 ];
 
