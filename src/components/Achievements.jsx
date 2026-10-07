@@ -24,16 +24,14 @@ export default function Achievements() {
             {ACHIEVEMENTS.map((item, i) => (
               <div
                 key={item.title}
-                className={`relative flex items-center gap-6 md:w-1/2 ${
-                  i % 2 === 0 ? "md:pr-10" : "md:ml-auto md:pl-10"
-                }`}
+                className={`relative flex items-center gap-6 md:w-1/2 ${i % 2 === 0 ? "md:pr-10" : "md:ml-auto md:pl-10"
+                  }`}
               >
                 <span
-                  className={`absolute top-9 hidden h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-sky-400 shadow-[0_0_14px_2px_rgba(56,189,248,0.6)] md:block ${
-                    i % 2 === 0 ? "-right-[31.5px]" : "-left-[31.5px]"
-                  }`}
+                  className={`absolute top-9 hidden h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-sky-400 shadow-[0_0_14px_2px_rgba(56,189,248,0.6)] md:block ${i % 2 === 0 ? "-right-[31.5px]" : "-left-[31.5px]"
+                    }`}
                 />
-                <a href ={item.link}> <motion.div
+                <a href={item.link}> <motion.div
                   initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
