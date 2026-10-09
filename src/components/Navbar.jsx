@@ -1,9 +1,8 @@
-
 import GooeyNav from "./interactive-component/GooeyNav";
 
 export default function Navbar() {
   const items = [
-    { label: "Home", href: "#hero" },
+    { label: "Home", href: "#app" },
     { label: "About", href: "#about" },
     { label: "Education", href: "#education" },
     { label: "Skills", href: "#skills" },
@@ -16,15 +15,14 @@ export default function Navbar() {
   return (
     <header className="fixed left-0 top-0 z-50 w-full">
       <div className="mx-auto flex max-w-7xl justify-center px-4 py-4">
-
         <div
           className="
             w-full max-w-5xl
             rounded-2xl
-            border border-blue-900/60
-            bg-[#071426]/95
+            border border-[#9e09eb]/60
+            bg-[#10071a]/95
             px-4 py-2
-            shadow-[0_8px_30px_rgba(0,0,0,0.35)]
+            shadow-[0_8px_30px_rgba(158,9,235,0.15)]
             backdrop-blur-md
           "
         >
@@ -36,7 +34,7 @@ export default function Navbar() {
             initialActiveIndex={0}
             animationTime={600}
             timeVariance={300}
-            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+            colors={["#ffffff"]}
           />
         </div>
       </div>

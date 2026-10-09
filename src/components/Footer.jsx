@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { CONTACT } from "../data";
-
+import ShutterGlyphFooter from "./interactive-component/ShutterGlyphFooter";
 export default function Footer() {
   const [show, setShow] = useState(false);
 
@@ -12,64 +12,15 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 px-6 pb-10 pt-16">
-      <svg
-        className="pointer-events-none absolute inset-x-0 -top-1 h-16 w-full text-ink-800"
-        viewBox="0 0 1200 60"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30 L1200,0 L0,0 Z"
-          fill="currentColor"
-        />
-      </svg>
-
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-sky-600 font-display text-sm font-bold text-ink-950">
-          R
-        </span>
-        <p className="text-sm text-slate-400">
-          Built with React, Tailwind CSS &amp; Framer Motion
-        </p>
-
-        <div className="flex items-center gap-3">
-          {[
-            { href: CONTACT.linkedinHref, icon: <LinkedInIcon /> },
-            { href: CONTACT.githubHref, icon: <GitHubIcon /> },
-            { href: `mailto:${CONTACT.email}`, icon: <MailIcon /> },
-          ].map((s, i) => (
-            <a
-              key={i}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition-all hover:-translate-y-1 hover:text-sky-300"
-            >
-              {s.icon}
-            </a>
-          ))}
-        </div>
-
-        <p className="text-xs text-slate-600">
-          © {new Date().getFullYear()} Rohith R. All rights reserved.
-        </p>
-      </div>
-
-      <AnimatePresence>
-        {show && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Back to top"
-            className="glow-btn fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-sky-600 text-ink-950"
-          >
-            <ArrowUp />
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </footer>
+      <div>
+      <ShutterGlyphFooter
+        brand="ROHITH"
+        company="rohith.co.in"
+        since={2023}
+        background="#111110"
+        ink="#7d05b9"
+      />
+    </div>
   );
 }
 
