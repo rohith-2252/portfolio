@@ -657,7 +657,9 @@ const ElectricLogo = ({
     // Desktop rendering settings remain unchanged.
     const mobileQuery = window.matchMedia('(max-width: 768px)');
     let isMobile = mobileQuery.matches;
-    const maxDpr = () => (isMobile ? 1 : 2);
+    // A lower backing resolution is important for this shader-heavy effect on phones.
+    // CSS still sizes the canvas to the same visible dimensions. Desktop is unchanged.
+    const maxDpr = () => (isMobile ? 0.75 : 2);
 
     const renderer = new Renderer({
       dpr: Math.min(window.devicePixelRatio || 1, maxDpr()),
@@ -988,7 +990,9 @@ const ElectricLogo = ({
       const rect = container.getBoundingClientRect();
       pointer.x = e.clientX - rect.left;
       pointer.y = e.clientY - rect.top;
-      pointer.over = true;
+      // Touch still triggers the electric burst on pointerdown, but doesn't
+      // run the desktop-style cursor-follow response while a finger moves.
+      pointer.over = !isMobile && e.pointerType !== 'touch';
     };
     const onDown = e => {
       onMove(e);

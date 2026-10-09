@@ -13,7 +13,7 @@
 
 @media (max-width: 768px) {
   .electric-logo {
-    /* Let vertical touch gestures scroll the page naturally. */
+    /* Allow normal vertical scrolling while retaining tap interaction. */
     touch-action: pan-y;
   }
 }
