@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap');
+
+.hero {
+  --bg0: #050605;
+  --bg1: #2b302d;
+  --bg2: #9e09eb;
+  --paper: #ecebe6;
+  --ink: #161616;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #fff;
+  font-family: "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, "Inter Tight", Arial, sans-serif;
+  background: radial-gradient(120% 90% at 85% 10%, var(--bg2) 0%, var(--bg1) 45%, var(--bg0) 80%), var(--bg0);
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4.2%;
+  background: #070707;
+  z-index: 18;
+}
+
+/* ── Person image cutout (z-index: 5) ── */
+.hero__person {
+  position: absolute;
+  right: 0;
+  bottom: 4.2%;
+  height: 90%;
+  width: auto;
+  max-width: 50%;
+  object-fit: contain;
+  object-position: right bottom;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(-8px 12px 24px rgba(0, 0, 0, 0.6));
+}
+
+/* ── Left content wrapper (z-index: 20) ── */
+.hero__content {
+  position: absolute;
+  left: 2.5%;
+  top: 11%;
+  width: 48%;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+.hero__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 5.8vw, 6.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #fff 0%, #bfc3c0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__title span { display: flex; }
+.hero__title .l1 { justify-content: flex-end; padding-left: 28%; }
+.hero__title .l2 { justify-content: space-between; }
+.hero__title .l3 { justify-content: flex-start; }
+
+.hero__desc {
+  margin: 32px 0 0 28%;
+  width: 60%;
+  min-width: 170px;
+  font-size: clamp(9px, 0.76vw, 12px);
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.04em;
+}
+
+.hero__actions {
+  margin: 28px 0 0 28%;
+  display: flex;
+  gap: 24px;
+}
+
+.hero__btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(9px, 0.78vw, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: opacity 0.2s ease;
+}
+.hero__btn:hover {
+  opacity: 0.6;
+}
+
+/* ── 3D Orbit Cards (Square Shaped, Clean) ── */
+.hero__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  aspect-ratio: 1 / 1;
+  background: #141615;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: box-shadow 0.25s ease;
+}
+
+.hero__card:hover {
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.75), 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.hero__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__card-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #141615;
+}
+
+/* ── Ticker strip ── */
+.hero__ticker {
+  position: absolute;
+  left: -4%;
+  bottom: 6%;
+  width: 54%;
+  height: 3.2vw;
+  min-height: 26px;
+  z-index: 22;
+  background: var(--paper);
+  transform: rotate(8.5deg);
+  transform-origin: left bottom;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.hero__marquee {
+  display: flex;
+  white-space: nowrap;
+  gap: 2.2vw;
+  color: var(--ink);
+  font-size: clamp(9px, 0.85vw, 13px);
+  text-transform: uppercase;
+  animation: hero-mq 22s linear infinite;
+}
+.hero__marquee b {
+  font-weight: 400;
+  letter-spacing: 0.2em;
+}
+@keyframes hero-mq {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__marquee { animation: none; }
+}
+
+/* ── Portrait / Mobile Phones ── */
+.hero[data-layout="portrait"] .hero__content {
+  left: 5%;
+  top: 6%;
+  width: 90%;
+}
+.hero[data-layout="portrait"] .hero__title {
+  font-size: clamp(2.2rem, 11vw, 3.8rem);
+  line-height: 0.94;
+}
+.hero[data-layout="portrait"] .hero__title .l1 {
+  padding-left: 18%;
+}
+.hero[data-layout="portrait"] .hero__desc {
+  margin: 14px 0 0 0;
+  width: 86%;
+  font-size: clamp(10px, 2.7vw, 13px);
+  line-height: 1.38;
+}
+.hero[data-layout="portrait"] .hero__actions {
+  margin: 14px 0 0 0;
+  gap: 16px;
+}
+.hero[data-layout="portrait"] .hero__btn {
+  font-size: clamp(10px, 2.7vw, 12px);
+}
+.hero[data-layout="portrait"] .hero__person {
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  bottom: 4%;
+  height: 56%;
+  max-width: 88%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.hero[data-layout="portrait"] .hero__ticker {
+  left: -4%;
+  width: 108%;
+  height: clamp(26px, 7vw, 36px);
+  bottom: 2.8%;
+  transform: rotate(4.5deg);
+}
+.hero[data-layout="portrait"] .hero__marquee {
+  font-size: clamp(9px, 2.5vw, 12px);
+}
