@@ -1,0 +1,182 @@
+/* =========================================
+   GLOBAL RESET
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: #000;
+}
+
+body {
+  min-width: 320px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* =========================================
+   INFINITE MENU SECTION
+========================================= */
+
+.infinite-menu-section {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+  background: #000;
+}
+
+/* =========================================
+   INFINITE MENU CONTAINER
+========================================= */
+
+.infinite-menu-container {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+  background: #000;
+}
+
+/* =========================================
+   MOBILE PORTRAIT
+========================================= */
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .infinite-menu-section {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+  }
+
+  .infinite-menu-container {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+  }
+}
+/* =========================================
+   PORTFOLIO PAGE
+========================================= */
+
+.portfolio-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #000;
+}
+
+/* =========================================
+   INFINITE MENU SECTION
+========================================= */
+
+.infinite-menu-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* =========================================
+   SCROLL BUTTON
+========================================= */
+
+.scroll-next-button {
+  display: none;
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .scroll-next-button {
+    position: absolute;
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    left: 50%;
+    bottom: 10px;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    transform: translateX(-50%);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+
+    background: #9e09eb;
+    color: #fff;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    animation: scroll-hint 1.5s ease-in-out infinite;
+
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .scroll-next-button:active {
+    transform: translateX(-50%) scale(0.92);
+  }
+}
+
+/* =========================================
+   SCROLL ANIMATION
+========================================= */
+
+@keyframes scroll-hint {
+  0%,
+  100% {
+    margin-bottom: 0;
+  }
+
+  50% {
+    margin-bottom: 5px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-next-button {
+    animation: none;
+  }
+}
