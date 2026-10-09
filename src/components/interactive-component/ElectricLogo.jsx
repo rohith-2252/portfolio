@@ -653,12 +653,18 @@ const ElectricLogo = ({
     const container = containerRef.current;
     if (!container) return undefined;
 
+    // Mobile devices use a lower internal render resolution to reduce GPU load.
+    // Desktop rendering settings remain unchanged.
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    let isMobile = mobileQuery.matches;
+    const maxDpr = () => (isMobile ? 1 : 2);
+
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      dpr: Math.min(window.devicePixelRatio || 1, maxDpr()),
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      preserveDrawingBuffer: true
+      preserveDrawingBuffer: !isMobile
     });
     const gl = renderer.gl;
     if (!renderer.isWebgl2) {
@@ -792,13 +798,30 @@ const ElectricLogo = ({
     const resize = () => {
       width = Math.max(1, container.clientWidth);
       height = Math.max(1, container.clientHeight);
-      renderer.dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(PIXEL_BUDGET / (width * height)));
+      renderer.dpr = Math.min(
+        window.devicePixelRatio || 1,
+        maxDpr(),
+        Math.sqrt(PIXEL_BUDGET / (width * height))
+      );
       renderer.setSize(width, height);
       uniforms.uResolution.value = [width, height];
     };
 
+    const onMobileBreakpointChange = event => {
+      isMobile = event.matches;
+      resize();
+    };
+    mobileQuery.addEventListener?.('change', onMobileBreakpointChange);
+
     const frame = now => {
       raf = 0;
+
+      // Keep mobile GPU work predictable. Desktop continues at the normal RAF rate.
+      if (isMobile && now - last < 1000 / 30) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+
       const s = settingsRef.current;
       const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
       last = now;
@@ -851,14 +874,15 @@ const ElectricLogo = ({
           y: (spot.y - near.oy) / near.fit,
           radius: Math.max(1, s.cursorRadius) / near.fit
         });
+        const arcLimit = isMobile ? 2 : ARCS;
         if (burst && morph >= 1 && s.arcs > 0) {
-          for (let i = 0; i < 3 && sparks.length < ARCS; i++) {
+          for (let i = 0; i < (isMobile ? 2 : 3) && sparks.length < arcLimit; i++) {
             const spark = spawnArc(to, time, focus(burst));
             if (spark) sparks.push(spark);
           }
         }
         burst = null;
-        if (!reducedMotion && presence > 0.8 && morph >= 1 && sparks.length < ARCS) {
+        if (!reducedMotion && presence > 0.8 && morph >= 1 && sparks.length < arcLimit) {
           const chance = dt * s.speed * s.arcs;
           if (Math.random() < chance * 6 * hover.power * s.cursorIntensity) {
             const spark = spawnArc(to, time, focus(hover));
@@ -935,12 +959,15 @@ const ElectricLogo = ({
         uniforms.uColor.value = hues[0].slice();
         uniforms.uGlowColor.value = hues[1].slice();
         uniforms.uIntensity.value = s.intensity;
-        uniforms.uGlow.value = s.glow;
+        uniforms.uGlow.value = s.glow * (isMobile ? 0.8 : 1);
         uniforms.uThickness.value = s.thickness;
-        uniforms.uStrands.value = Math.max(1, Math.min(6, Math.round(s.strands)));
-        uniforms.uBend.value = s.bend;
-        uniforms.uCrackle.value = s.crackle;
-        uniforms.uFlicker.value = reducedMotion ? 0 : s.flicker;
+        uniforms.uStrands.value = Math.max(
+          1,
+          Math.min(isMobile ? 2 : 6, Math.round(s.strands))
+        );
+        uniforms.uBend.value = s.bend * (isMobile ? 0.75 : 1);
+        uniforms.uCrackle.value = s.crackle * (isMobile ? 0.7 : 1);
+        uniforms.uFlicker.value = reducedMotion ? 0 : s.flicker * (isMobile ? 0.6 : 1);
         ink += ((s.theme === 'light' ? 1 : 0) - ink) * (1 - Math.exp(-dt / 0.25));
         uniforms.uFill.value = s.fill;
         uniforms.uInk.value = ink;
@@ -994,6 +1021,7 @@ const ElectricLogo = ({
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      mobileQuery.removeEventListener?.('change', onMobileBreakpointChange);
       container.removeEventListener('pointermove', onMove);
       container.removeEventListener('pointerdown', onDown);
       container.removeEventListener('pointerleave', onLeave);
