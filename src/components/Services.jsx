@@ -1,105 +1,250 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { SERVICES } from "../data";
-import { SectionHeading } from "./Education";
+import React, { useEffect, useRef } from "react";
+import "./style/Services.css";
 
+/* ---------- config ---------- */
+const FACES = 36;                       // slices per ring (more = smoother cylinder)
+const RADIUS = 460;                     // ring radius in px
+const FACE_W = Math.ceil(2 * RADIUS * Math.tan(Math.PI / FACES)) + 1;
+const STRIP_W = FACE_W * FACES;         // full unrolled circumference
+const PHONE_LAYERS = 12;                // stacked layers = rounded phone thickness
+const LAYER_GAP = 2.4;                  // px between layers (phone thickness ~ 29px)
+const PHONE_START = 204;                // 180 = black screen faces you (+24 for a slight angle)
+const START_ROT = -90;                  // rotates each ring so its word faces the viewer at load
+
+/* tiny pixel-art icons (# = filled pixel) */
 const ICONS = {
-  coffee: <CoffeeIcon />,
-  layers: <LayersIcon />,
-  sparkles: <SparkleIcon />,
+  layers: ["....#....", "...###...", "..##.##..", ".##...##.", "....#....", "...###...", "..##.##..", ".##...##.", "........."],
+  spark: ["....#....", "....#....", "...###...", "##.###.##", "#########", "##.###.##", "...###...", "....#....", "....#...."],
+  chip: ["..#.#.#..", ".#######.", "##.....##", ".#.###.#.", "##.###.##", ".#.###.#.", "##.....##", ".#######.", "..#.#.#.."],
 };
 
-const CHIP_POSITIONS = [
-  { top: "-10%", left: "4%" },
-  { top: "-6%", right: "8%" },
-  { top: "36%", left: "-14%" },
-  { top: "40%", right: "-14%" },
-  { bottom: "-8%", left: "0%" },
-  { bottom: "-12%", right: "6%" },
-  { bottom: "-16%", left: "40%" },
-  { top: "-16%", left: "38%" },
+/* each ring = a big word + a mix of small components, laid out as two groups (A, B) */
+const RINGS = [
+  {
+    word: "FULLSTACK", y: -212, speed: 1, fs: 104,
+    a: [
+      { t: "word" }, { t: "bar" }, { t: "icon", n: "layers" },
+      { t: "tags", v: ["REACT + NEXT", "NODE APIS", "DATABASES"] },
+      { t: "para", v: "FROM PIXEL-PERFECT INTERFACES TO SCALABLE BACKENDS. ONE TEAM, SHIPPING END TO END." },
+    ],
+    b: [
+      { t: "num", v: "01." }, { t: "ghost" },
+      { t: "chips", v: ["REACT", "NODE", "SQL", "AWS"] }, { t: "bar" },
+    ],
+  },
+  {
+    word: "ARTIFICIAL INTELLIGENCE", y: 0, speed: 1.25, fs: 84,
+    a: [
+      { t: "word" }, { t: "bar" }, { t: "icon", n: "spark" },
+      { t: "tags", v: ["LLM APPS", "AI AGENTS", "AUTOMATION"] },
+    ],
+    b: [
+      { t: "para", v: "CHATBOTS, COPILOTS AND SMART WORKFLOWS THAT PLUG AI INTO REAL PRODUCTS AND REAL DATA." },
+      { t: "num", v: "02." }, { t: "chips", v: ["RAG", "AGENTS", "VISION"] }, { t: "bar" },
+    ],
+  },
+  {
+    word: "SOFTWARE DEVELOPMENT", y: 212, speed: 1.5, fs: 92,
+    a: [
+      { t: "word" }, { t: "bar" }, { t: "icon", n: "chip" },
+      { t: "tags", v: ["WEB + MOBILE", "CLOUD", "DEVOPS"] },
+    ],
+    b: [
+      { t: "para", v: "CLEAN, TESTED, MAINTAINABLE CODE. FROM FIRST COMMIT TO PRODUCTION AND BEYOND." },
+      { t: "num", v: "03." }, { t: "chips", v: ["IOS", "ANDROID", "CI/CD"] }, { t: "bar" },
+    ],
+  },
 ];
 
-export default function Services() {
-  const [hovered, setHovered] = useState(null);
-
+function PixelIcon({ name }) {
+  const g = ICONS[name];
+  let d = "";
+  g.forEach((row, y) => [...row].forEach((c, x) => { if (c === "#") d += `M${x} ${y}h1v1h-1z`; }));
   return (
-    <section id="services" className="relative px-6 py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Services" title="What I Do" />
+    <svg className="ring__icon" viewBox={`0 0 ${g[0].length} ${g.length}`} shapeRendering="crispEdges" aria-hidden="true">
+      <path d={d} />
+    </svg>
+  );
+}
 
-        <div className="mt-20 grid grid-cols-1 gap-x-8 gap-y-24 md:grid-cols-3">
-          {SERVICES.map((service, i) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              whileHover={{ y: -8 }}
-              className={`group relative rounded-3xl p-8 transition-all ${
-                service.featured
-                  ? "glass-strong shadow-[0_0_45px_-12px_rgba(56,189,248,0.5)] md:-translate-y-4"
-                  : "glass hover:shadow-[0_0_35px_-12px_rgba(56,189,248,0.4)]"
-              }`}
-            >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-sky-600 text-ink-950 shadow-[0_0_20px_-4px_rgba(56,189,248,0.6)]">
-                {ICONS[service.icon]}
-              </div>
-              <h3 className="font-display text-xl font-semibold text-white">
-                {service.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-slate-400">
-                {service.desc}
-              </p>
+function Item({ it, word }) {
+  switch (it.t) {
+    case "word":  return <span className="ring__word">{word}</span>;
+    case "ghost": return <span className="ring__ghost">{word}</span>;
+    case "bar":   return <span className="ring__bar" />;
+    case "icon":  return <PixelIcon name={it.n} />;
+    case "num":   return <span className="ring__num">{it.v}</span>;
+    case "para":  return <p className="ring__para">{it.v}</p>;
+    case "tags":  return <ul className="ring__tags">{it.v.map((x) => <li key={x}>{x}</li>)}</ul>;
+    case "chips": return <div className="ring__chips">{it.v.map((x) => <span key={x}>[ {x} ]</span>)}</div>;
+    default:      return null;
+  }
+}
 
-              <AnimatePresence>
-                {hovered === i &&
-                  service.chips.map((chip, ci) => (
-                    <motion.span
-                      key={chip}
-                      initial={{ opacity: 0, scale: 0.5, x: 0, y: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.5 }}
-                      transition={{ delay: ci * 0.03, duration: 0.35 }}
-                      style={CHIP_POSITIONS[ci % CHIP_POSITIONS.length]}
-                      className="pointer-events-none absolute z-20 hidden whitespace-nowrap rounded-full border border-sky-400/30 bg-ink-800/90 px-3 py-1 text-[11px] font-medium text-sky-300 shadow-[0_0_15px_-4px_rgba(56,189,248,0.6)] backdrop-blur md:block"
-                    >
-                      {chip}
-                    </motion.span>
-                  ))}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+/* ---------- one cylinder of rotating content ---------- */
+function Ring({ word, a, b, fs, innerRef }) {
+  const content = (
+    <>
+      <div className="ring__group">{a.map((it, k) => <Item key={k} it={it} word={word} />)}</div>
+      <div className="ring__group">{b.map((it, k) => <Item key={k} it={it} word={word} />)}</div>
+    </>
+  );
+  return (
+    <div className="ring" ref={innerRef} style={{ "--fs": fs + "px" }}>
+      {Array.from({ length: FACES }).map((_, i) => (
+        <div
+          className="ring__face"
+          key={i}
+          style={{
+            width: FACE_W,
+            marginLeft: -FACE_W / 2,
+            transform: `rotateY(${(i * 360) / FACES}deg) translateZ(${RADIUS}px)`,
+          }}
+        >
+          {/* every face shows its own slice of one long strip */}
+          <div className="ring__strip" style={{ width: STRIP_W, left: -i * FACE_W }}>{content}</div>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
   );
 }
 
-function CoffeeIcon() {
+/* ---------- 3D phone: iPhone-style, white glass back, black glass front ---------- */
+function Phone({ innerRef }) {
+  const half = (PHONE_LAYERS - 1) / 2;
+  const zFront = -half * LAYER_GAP;   // screen side
+  const zBack = half * LAYER_GAP;     // white back side
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8h1a3 3 0 010 6h-1" />
-      <path d="M2 8h16v6a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" />
-      <path d="M6 2v2M10 2v2M14 2v2" />
-    </svg>
+    <div className="phone" ref={innerRef}>
+      {Array.from({ length: PHONE_LAYERS }).map((_, k) => (
+        <div
+          key={k}
+          className={`phone__layer ${k === PHONE_LAYERS - 1 ? "phone__layer--back" : ""} ${k === 0 ? "phone__layer--front" : ""}`}
+          style={{ transform: `translateZ(${(k - half) * LAYER_GAP}px)${k === 0 ? " rotateY(180deg)" : ""}` }}
+        >
+          {k === 0 && (
+            <div className="phone__screen">
+              <span className="phone__island"><i /></span>
+              <span className="phone__reflect" />
+              <span className="phone__homebar" />
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* side buttons (real 3D slabs) */}
+      <span className="btn btn--action" />
+      <span className="btn btn--volup" />
+      <span className="btn btn--voldn" />
+      <span className="btn btn--power" />
+
+      {/* camera plateau sits slightly above the white glass */}
+      <div className="phone__camera" style={{ transform: `translateZ(${zBack + 2.5}px)` }}>
+        <div className="lens lens--a"><i /></div>
+        <div className="lens lens--b"><i /></div>
+        <div className="lens lens--c"><i /></div>
+        <span className="flash" />
+        <span className="lidar" />
+        <span className="mic" />
+      </div>
+      <div className="phone__mark" style={{ transform: `translateZ(${zBack + 0.6}px)` }} />
+    </div>
   );
 }
-function LayersIcon() {
+
+export default function Services() {
+  const sceneRef = useRef(null);
+  const stickyRef = useRef(null);
+  const ringRefs = useRef([]);
+  const phoneRef = useRef(null);
+  const glowRef = useRef(null);
+  const dotRef = useRef(null);
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let cur = 0;
+    let idle = 0;
+    let raf;
+
+    const frame = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const target = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      cur += (target - cur) * 0.08;                // smooth follow
+      if (!reduce) idle += 0.12;
+
+      // fit the whole composition to the viewport
+      // ONE layout for every screen: the same scene, scaled to fit the viewport.
+      // Perspective is scaled too, so mobile looks exactly like desktop.
+      const w = window.innerWidth, h = window.innerHeight;
+      const s = Math.min(w / 1000, h / 900, 1);
+      if (stickyRef.current) stickyRef.current.style.perspective = `${1500 * s}px`;
+      if (sceneRef.current) sceneRef.current.style.transform = `scale3d(${s}, ${s}, ${s})`;
+
+      // TEXT RINGS: rotate + travel DOWN while scrolling
+      RINGS.forEach((r, i) => {
+        const el = ringRefs.current[i];
+        if (!el) return;
+        const y = r.y + cur * (560 + i * 150);
+        const rot = START_ROT + cur * 540 * r.speed + idle * (i % 2 ? -1 : 1);
+        el.style.transform = `translateY(${y}px) rotateX(-2deg) rotateY(${rot}deg)`;
+        // far side of the cylinder = blurred, like glass seen from behind
+        const kids = el.children;
+        for (let f = 0; f < kids.length; f++) {
+          const back = Math.cos(((f * 360) / FACES + rot) * Math.PI / 180) < 0;
+          if (kids[f]._b !== back) { kids[f]._b = back; kids[f].classList.toggle("is-back", back); }
+        }
+      });
+
+      // PHONE: rotate (opposite way) + travel UP while scrolling
+      if (phoneRef.current) {
+        const y = -cur * 620;
+        const rot = PHONE_START - cur * 720 + idle * 0.4;
+        phoneRef.current.style.transform = `translateY(${y}px) rotateX(-6deg) rotateY(${rot}deg)`;
+      }
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translateY(${-cur * 620}px)`;
+        glowRef.current.style.opacity = String(1 - cur * 0.6);
+      }
+      if (dotRef.current) dotRef.current.style.transform = `translateY(${-cur * 120}px)`;
+
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2l9 5-9 5-9-5 9-5z" />
-      <path d="M3 12l9 5 9-5M3 17l9 5 9-5" />
-    </svg>
-  );
-}
-function SparkleIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z" />
-    </svg>
+    <main className="page">
+      <header className="nav">
+        <a className="logo" href="#top" aria-label="Kodo Labs">
+          <span className="logo__main">kodo</span>
+          <span className="logo__script">Labs</span>
+        </a>
+        <nav className="nav__links">
+          <a href="#agency">[AGENCY]</a>
+          <a href="#contact">[CONTACT]</a>
+        </nav>
+      </header>
+
+      <section className="stage" aria-label="Services">
+        <div className="stage__sticky" ref={stickyRef}>
+          <div className="dots" />
+          <div className="glow" ref={glowRef} />
+
+          <div className="scene" ref={sceneRef}>
+            <Phone innerRef={phoneRef} />
+            {RINGS.map((r, i) => (
+              <Ring key={r.word} {...r} innerRef={(el) => (ringRefs.current[i] = el)} />
+            ))}
+          </div>
+
+          <div className="hint">
+            <span className="hint__circle" />
+            <span>SCROLL</span>
+          </div>
+          <span className="dot" ref={dotRef} />
+        </div>
+      </section>
+    </main>
   );
 }

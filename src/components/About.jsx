@@ -111,23 +111,6 @@ export default function About() {
 <div className="mx-auto w-full text-center">  
 
         {/* About Badge */}
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="
-            inline-block
-            rounded-full
-            border border-sky-400/25
-            bg-sky-400/5
-            px-4 py-1.5
-            text-xs
-            font-medium
-            text-sky-300
-          "
-        >
-          About Me
-        </motion.span>
 
 
         {/* Heading */}
@@ -186,15 +169,15 @@ className="
                 "UI / UX DESIGNER",
                 "AI / ML ENGINEER"
               ]}
-              velocity={45}
+              velocity={60}
               numCopies={6}
               damping={50}
               stiffness={400}
                 className="
               custom-scroll-text
-              text-[18px]
-              sm:text-[22px]
-              md:text-[26px]
+              text-[24px]
+              sm:text-[27px]
+              md:text-[30px]
               text-sky-400/60
             "
             />
@@ -214,7 +197,6 @@ className="
               text-slate-500
             "
           >
-            Technologies I Work With
           </p>
 
 
@@ -244,108 +226,8 @@ className="
           {/* BOTTOM SCROLL VELOCITY */}
           {/* ========================= */}
 
-          <div className="mt-6 w-full overflow-hidden">
-
-<ScrollVelocity
-  texts={[
-    "REACT • NODE.JS • PYTHON • JAVA",
-    "MONGODB • POSTGRESQL • DOCKER • GIT",
-  ]}
-  velocity={-45}
-  numCopies={6}
-  damping={50}
-  stiffness={400}
-  className="
-    custom-scroll-text
-    text-[16px]
-    sm:text-[20px]
-    md:text-[24px]
-    text-blue-400/50
-  "
-/>
-
-          </div>
 
         </motion.div>
-
-
-        {/* ========================= */}
-        {/* STATS */}
-        {/* ========================= */}
-
-        <div
-          className="
-            mt-14
-            grid
-            grid-cols-2
-            gap-4
-            sm:grid-cols-3
-            lg:grid-cols-5
-          "
-        >
-
-          {STATS.map((s, i) => (
-
-            <motion.div
-              key={s.label}
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                delay: i * 0.08,
-              }}
-              whileHover={{
-                y: -6,
-              }}
-              className="
-                glass
-                rounded-2xl
-                px-5
-                py-7
-                transition-shadow
-                hover:shadow-[0_0_30px_-10px_rgba(56,189,248,0.4)]
-              "
-            >
-
-              <div
-                className="
-                  font-display
-                  text-3xl
-                  font-bold
-                  text-sky-300
-                "
-              >
-                <Counter
-                  value={s.value}
-                  suffix={s.suffix}
-                />
-              </div>
-
-              <div
-                className="
-                  mt-1.5
-                  text-xs
-                  font-medium
-                  text-slate-400
-                "
-              >
-                {s.label}
-              </div>
-
-            </motion.div>
-
-          ))}
-
-        </div>
-
       </div>
 
     </section>

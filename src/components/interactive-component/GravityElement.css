@@ -1,0 +1,550 @@
+/* =========================================
+   FULL-SCREEN CYBERPUNK GRAVITY
+   Black + Neon Purple #9e09eb
+========================================= */
+
+.cyber-gravity-section {
+  --neon: #9e09eb;
+  --neon-light: #c65bff;
+  --neon-border: rgba(158, 9, 235, 0.65);
+  --text: #f7f0ff;
+  --muted: #95889f;
+
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding: clamp(24px, 4vw, 55px);
+
+  overflow: hidden;
+
+  background: #050507;
+  color: var(--text);
+
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+/* =========================================
+   BACKGROUND GRID
+========================================= */
+
+.cyber-gravity-grid {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(158, 9, 235, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(158, 9, 235, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 42px 42px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+.cyber-gravity-glow {
+  position: absolute;
+  z-index: -1;
+
+  top: 12%;
+  right: -150px;
+
+  width: 450px;
+  height: 450px;
+
+  border: 1px solid rgba(158, 9, 235, 0.12);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 50px rgba(158, 9, 235, 0.025),
+    0 0 0 100px rgba(158, 9, 235, 0.018);
+
+  pointer-events: none;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.cyber-gravity-header {
+  position: relative;
+  z-index: 5;
+
+  flex: 0 0 auto;
+
+  padding-bottom: 24px;
+
+  border-bottom: 1px solid rgba(158, 9, 235, 0.24);
+}
+
+.cyber-gravity-eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 16px;
+
+  color: var(--neon-light);
+
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.cyber-gravity-status {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--neon-light);
+  box-shadow: 0 0 12px var(--neon);
+
+  animation: cyberGravityPulse 2s infinite;
+}
+
+.cyber-gravity-divider {
+  width: 30px;
+  height: 1px;
+
+  background: var(--neon);
+}
+
+.cyber-gravity-title {
+  margin: 0;
+
+  color: #ffffff;
+    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(32px, 5vw, 68px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.cyber-gravity-title span:first-child {
+  color: var(--neon-light);
+
+  text-shadow: 0 0 24px rgba(158, 9, 235, 0.25);
+}
+
+.cyber-gravity-title .cyber-gravity-period {
+  color: var(--neon);
+}
+
+.cyber-gravity-subtitle {
+  margin: 14px 0 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   FULL-SCREEN PLAYGROUND
+========================================= */
+
+.cyber-gravity-stage {
+  position: relative;
+  z-index: 1;
+
+  flex: 1 1 auto;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 350px;
+
+  margin: 18px 0;
+
+  overflow: hidden;
+}
+
+.cyber-gravity-playground.gravity-container {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Keep physics canvas invisible and non-interactive.
+   Pointer events should target the actual visible pills. */
+
+.cyber-gravity-playground canvas {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none !important;
+}
+
+.cyber-gravity-playground .gravity-items {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* =========================================
+   ORIGINAL-STYLE ROUNDED PILLS
+========================================= */
+
+.cyber-gravity-playground .gravity-item {
+  position: absolute;
+
+  width: max-content;
+  max-width: calc(100% - 20px);
+
+  z-index: 2;
+
+  pointer-events: auto;
+
+  cursor: grab;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+
+  will-change: left, top, transform;
+}
+
+.cyber-gravity-playground .gravity-item:active {
+  cursor: grabbing;
+}
+
+.cyber-tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+
+  width: max-content;
+  max-width: 100%;
+
+  min-height: 48px;
+
+  padding: 12px 22px;
+
+  border: 1px solid var(--neon-border);
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37, 12, 49, 0.98),
+      rgba(10, 7, 14, 0.98)
+    );
+
+  color: #f8efff;
+
+  box-shadow:
+    inset 0 0 14px rgba(158, 9, 235, 0.06),
+    0 0 12px rgba(158, 9, 235, 0.07);
+
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 600;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Purple marker */
+
+.cyber-tech-pill__marker {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+
+  background: var(--neon-light);
+
+  box-shadow: 0 0 10px rgba(158, 9, 235, 0.8);
+}
+
+.cyber-tech-pill__name {
+  min-width: 0;
+}
+
+/* Category variations: retain the original pill shape. */
+
+.cyber-tech-pill--language {
+  border-color: rgba(158, 9, 235, 0.85);
+}
+
+.cyber-tech-pill--core {
+  border-color: rgba(174, 66, 232, 0.7);
+}
+
+.cyber-tech-pill--software {
+  border-color: rgba(130, 31, 194, 0.8);
+}
+
+.cyber-tech-pill--ai {
+  border-color: rgba(198, 91, 255, 0.85);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(48, 13, 66, 0.98),
+      rgba(10, 7, 14, 0.98)
+    );
+}
+
+.cyber-tech-pill--database {
+  border-color: rgba(158, 9, 235, 0.55);
+}
+
+.cyber-tech-pill--tools {
+  border-color: rgba(184, 81, 240, 0.75);
+}
+
+/* Hover effects */
+
+@media (hover: hover) and (pointer: fine) {
+  .cyber-tech-pill:hover {
+    border-color: var(--neon-light);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(65, 15, 91, 0.98),
+        rgba(15, 8, 22, 0.99)
+      );
+
+    box-shadow:
+      inset 0 0 15px rgba(158, 9, 235, 0.12),
+      0 0 20px rgba(158, 9, 235, 0.2);
+  }
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.cyber-gravity-footer {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  flex: 0 0 auto;
+
+  padding-top: 17px;
+
+  border-top: 1px solid rgba(158, 9, 235, 0.24);
+
+  color: #a89bb3;
+
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.cyber-gravity-footer > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cyber-gravity-terminal-symbol {
+  color: var(--neon-light);
+  font-weight: 700;
+}
+
+.cyber-gravity-footer-right {
+  color: var(--muted);
+}
+
+.cyber-gravity-footer-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--neon);
+  box-shadow: 0 0 9px var(--neon);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes cyberGravityPulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 12px var(--neon);
+  }
+
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 4px var(--neon);
+  }
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 800px) {
+  .cyber-gravity-section {
+    padding: 30px 24px;
+  }
+
+  .cyber-gravity-title {
+    font-size: clamp(30px, 5.5vw, 48px);
+  }
+
+  .cyber-tech-pill {
+    min-height: 43px;
+    padding: 10px 17px;
+
+    font-size: 13px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+  .cyber-gravity-section {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding: 24px 14px 18px;
+  }
+
+  .cyber-gravity-header {
+    padding-bottom: 18px;
+  }
+
+  .cyber-gravity-eyebrow {
+    gap: 7px;
+
+    margin-bottom: 13px;
+
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .cyber-gravity-title {
+    font-size: clamp(28px, 7.3vw, 39px);
+    letter-spacing: -1px;
+    line-height: 1.15;
+  }
+
+  .cyber-gravity-subtitle {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .cyber-gravity-stage {
+    min-height: 450px;
+    margin: 12px 0;
+  }
+
+  .cyber-gravity-playground.gravity-container {
+    min-height: 450px;
+  }
+
+  .cyber-tech-pill {
+    gap: 8px;
+
+    min-height: 38px;
+
+    padding: 9px 13px;
+
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .cyber-tech-pill__marker {
+    width: 6px;
+    height: 6px;
+    flex-basis: 6px;
+  }
+
+  .cyber-gravity-footer {
+    padding-top: 13px;
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .cyber-gravity-section {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .cyber-gravity-title {
+    font-size: 26px;
+  }
+
+  .cyber-tech-pill {
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .cyber-gravity-footer {
+    font-size: 7px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-gravity-section *,
+  .cyber-gravity-section *::before,
+  .cyber-gravity-section *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

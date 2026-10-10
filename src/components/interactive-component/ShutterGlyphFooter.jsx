@@ -474,7 +474,7 @@ export default function ShutterGlyphFooter({ brand = "Vanda", wordmark, shutterA
     // ---- render ----------------------------------------------------------------
     const vars = {
         "--sgf-bg": background,
-        "--sgf-top": mixHex(background, "#ffffff", 0.13),
+        "--sgf-top": mixHex(background, "#000000", 0.13),
         "--sgf-ink": ink,
         "--sgf-mono": fontMono,
     };
@@ -581,3 +581,40 @@ export default function ShutterGlyphFooter({ brand = "Vanda", wordmark, shutterA
       </div>
     </footer>);
 }
+
+
+// const onSubmit = async (e) => {
+//   e.preventDefault();
+
+//   setStatus("sending");
+
+//   try {
+//     await emailjs.send(
+//       "service_gpzgtk9",
+//       "template_16ij1tl",
+//       {
+//         from_name: form.name,
+//         from_email: form.email,
+//         subject: form.subject,
+//         message: form.message,
+//       },
+//       "wOgCUqvkrh1h3V3SU"
+//     );
+
+//     setStatus("sent");
+
+//     setForm({
+//       name: "",
+//       email: "",
+//       subject: "",
+//       message: "",
+//     });
+
+//     setTimeout(() => {
+//       setStatus("idle");
+//     }, 3000);
+//   } catch (err) {
+//     console.log(err);
+//     setStatus("error");
+//   }
+// };

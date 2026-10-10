@@ -1,0 +1,260 @@
+:root {
+  --bg: #000;
+  --accent: #9e09eb;
+  --accent-light: #d27bff;
+  --accent-deep: #5d0594;
+  --ink: #f4eefc;
+  --display: "Anton", Impact, "Arial Narrow Bold", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "Courier New", monospace;
+  --script: "Allura", "Brush Script MT", cursive;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--ink); overflow-x: hidden; }
+
+.page { position: relative; }
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 22px 24px; pointer-events: none;
+}
+.nav a { pointer-events: auto; color: inherit; text-decoration: none; }
+.logo { display: flex; align-items: baseline; gap: 4px; }
+.logo__main { font: 800 26px/1 "Poppins", "Arial Rounded MT Bold", sans-serif; letter-spacing: -0.04em; }
+.logo__script { font: 400 26px/1 var(--script); color: var(--accent-light); }
+.nav__links { display: flex; gap: 18px; font: 500 10px/1 var(--mono); }
+.nav__links a:hover { color: var(--accent-light); }
+.nav a:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 4px; }
+
+/* ---------- stage (scroll track) ---------- */
+.stage { height: 420vh; }
+.stage__sticky {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 50% at 50% 52%, rgba(158, 9, 235, 0.22), transparent 70%),
+    #000;
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+}
+
+/* dotted grid like the reference */
+.dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1.4px);
+  background-size: 9px 9px;
+  mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, #000 30%, transparent 100%);
+}
+
+.glow {
+  position: absolute; left: 50%; top: 50%;
+  width: 520px; height: 760px; margin: -380px 0 0 -260px;
+  background: radial-gradient(ellipse at center, rgba(158, 9, 235, 0.55), rgba(158, 9, 235, 0.12) 50%, transparent 72%);
+  filter: blur(30px);
+  will-change: transform;
+}
+
+/* ---------- 3D scene ---------- */
+.scene {
+  position: absolute; left: 50%; top: 47%;
+  width: 0; height: 0;
+  transform-style: preserve-3d;
+  transform-origin: 0 0;
+}
+
+/* ---------- text ring ---------- */
+.ring {
+  position: absolute; left: 0; top: 0;
+  width: 0; height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.ring__face {
+  position: absolute; left: 0; top: -95px;
+  height: 190px; overflow: hidden;
+  backface-visibility: visible;
+  background: linear-gradient(180deg,
+    rgba(210, 140, 255, 0.22) 0%,
+    rgba(158, 9, 235, 0.06) 40%,
+    rgba(158, 9, 235, 0.06) 62%,
+    rgba(210, 140, 255, 0.20) 100%);
+  /* the thin glass edge lines from the reference */
+  border-top: 2px solid rgba(225, 170, 255, 0.85);
+  border-bottom: 2px solid rgba(225, 170, 255, 0.85);
+}
+.ring__strip {
+  position: absolute; top: 0; height: 100%;
+  display: flex; align-items: center; justify-content: space-around;
+  white-space: nowrap;
+  filter: drop-shadow(0 0 7px rgba(158, 9, 235, 0.65));
+}
+.ring__face.is-back .ring__strip { filter: blur(1.6px); opacity: 0.7; }
+
+.ring__group { display: flex; align-items: center; gap: 30px; flex-shrink: 0; }
+
+.ring__word {
+  font: 400 var(--fs, 100px)/1 var(--display);
+  color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-light) 0%, var(--accent) 48%, var(--accent-deep) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ring__ghost {              /* outlined copy of the word */
+  font: 400 calc(var(--fs, 100px) * 0.62)/1 var(--display);
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent-light);
+}
+.ring__num {
+  font: 400 calc(var(--fs, 100px) * 0.9)/1 var(--display);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+}
+.ring__bar {                /* the thick divider "|" */
+  width: 12px; height: 62%; flex-shrink: 0;
+  background: linear-gradient(180deg, var(--accent-light), var(--accent-deep));
+}
+.ring__icon { width: 46px; height: 46px; fill: var(--accent-light); flex-shrink: 0; }
+.ring__tags {
+  list-style: none; font: 500 14px/1.45 var(--mono);
+  color: var(--accent-light); text-transform: uppercase;
+}
+.ring__tags li::before { content: "• "; }
+.ring__para {
+  width: 230px; white-space: normal;
+  font: 500 10.5px/1.5 var(--mono); letter-spacing: 0.02em;
+  color: rgba(226, 190, 255, 0.85); text-transform: uppercase;
+}
+.ring__chips { display: grid; grid-template-columns: repeat(2, auto); gap: 8px 14px; font: 500 12px/1 var(--mono); color: var(--accent-light); }
+.ring__chips span { padding: 6px 8px; border: 1px solid rgba(210, 123, 255, 0.55); }
+
+/* ---------- phone (iPhone-style) ---------- */
+.phone {
+  --ti: linear-gradient(90deg, #8f8d88, #e6e4df 22%, #bdbbb5 50%, #e6e4df 78%, #8f8d88); /* titanium edge */
+  position: absolute; left: -125px; top: -258px;
+  width: 250px; height: 516px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.phone__layer {
+  position: absolute; inset: 0;
+  border-radius: 46px;
+  background: var(--ti);
+}
+.phone__layer--back,
+.phone__layer--front { backface-visibility: hidden; }
+
+/* white glass back */
+.phone__layer--back {
+  background:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(165deg, #ffffff 0%, #f3f3f6 50%, #e4e3ea 100%);
+  box-shadow: inset 0 0 0 2px #c9c7c2, inset 0 0 0 3px rgba(255, 255, 255, 0.9), inset 0 0 40px rgba(158, 9, 235, 0.10);
+}
+.phone__mark {
+  position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -10px 0 0 -23px;
+  border-radius: 50%; backface-visibility: hidden;
+  background: radial-gradient(circle at 35% 30%, #fff, #ecebf2 70%);
+  box-shadow: inset 0 0 0 1px rgba(158, 9, 235, 0.18), 0 0 18px rgba(158, 9, 235, 0.25);
+}
+
+/* camera plateau */
+.phone__camera {
+  position: absolute; left: 14px; top: 14px; width: 112px; height: 112px;
+  border-radius: 30px; backface-visibility: hidden;
+  background: linear-gradient(145deg, #f4f4f8, #d9d8e2);
+  box-shadow: inset 0 0 0 1px #fff, 0 3px 8px rgba(30, 20, 50, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.lens {
+  position: absolute; width: 46px; height: 46px; border-radius: 50%;
+  background: linear-gradient(145deg, #f2f2f6, #8d8c98 55%, #d8d7e0);   /* metal ring */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 0 0 1px #fff;
+}
+.lens i {
+  position: absolute; inset: 5px; border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(180, 140, 255, 0.9) 0 7%, transparent 18%),
+    radial-gradient(circle at 50% 50%, #1d1530 0 28%, #07050d 62%, #000 100%);
+  box-shadow: inset 0 0 0 3px #12101a, inset 0 0 8px rgba(158, 9, 235, 0.5);
+}
+.lens--a { top: 8px; left: 8px; }
+.lens--b { top: 58px; left: 8px; }
+.lens--c { top: 33px; left: 56px; }
+.flash {
+  position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff6d6, #e6c978); box-shadow: 0 0 0 2px #cfcdd6;
+}
+.lidar {
+  position: absolute; bottom: 10px; right: 10px; width: 14px; height: 14px; border-radius: 50%;
+  background: #0b0910; box-shadow: 0 0 0 2px #cfcdd6;
+}
+.mic { position: absolute; top: 12px; right: 32px; width: 5px; height: 5px; border-radius: 50%; background: #3a3744; }
+
+/* black glass front */
+.phone__layer--front {
+  background: #000;
+  box-shadow: inset 0 0 0 2px #cfcdc8, inset 0 0 0 7px #050505;
+}
+.phone__screen {
+  position: absolute; inset: 7px; border-radius: 39px; overflow: hidden;
+  background: #000;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+.phone__island {
+  position: absolute; top: 11px; left: 50%; width: 80px; height: 24px; margin-left: -40px;
+  border-radius: 14px; background: #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.phone__island i {
+  position: absolute; right: 9px; top: 7px; width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2b2742, #07060b 70%);
+}
+.phone__reflect {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 46%),
+    radial-gradient(ellipse at 50% 120%, rgba(158, 9, 235, 0.12), transparent 60%);
+}
+.phone__homebar {
+  position: absolute; bottom: 8px; left: 50%; width: 96px; height: 4px; margin-left: -48px;
+  border-radius: 3px; background: rgba(255, 255, 255, 0.10);
+}
+
+/* side buttons: slabs standing on the edge of the phone */
+.btn {
+  position: absolute; left: 50%; width: 22px; margin-left: -11px;
+  background: linear-gradient(180deg, #c9c7c2, #9c9a95 50%, #c9c7c2);
+  border-radius: 2px;
+}
+.btn--action { top: 78px;  height: 26px;  transform: rotateY(90deg) translateZ(-127px); }
+.btn--volup  { top: 124px; height: 48px;  transform: rotateY(90deg) translateZ(-127px); }
+.btn--voldn  { top: 184px; height: 48px;  transform: rotateY(90deg) translateZ(-127px); }
+.btn--power  { top: 150px; height: 76px;  transform: rotateY(90deg) translateZ(127px); }
+
+/* ---------- small UI bits from reference ---------- */
+.hint {
+  position: absolute; left: 24px; bottom: 22px; z-index: 10;
+  display: flex; align-items: center; gap: 10px;
+  font: 500 10px/1 var(--mono); letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.7);
+}
+.hint__circle { width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 0 22px rgba(158, 9, 235, 0.7); }
+.dot {
+  position: absolute; right: 28px; bottom: 28px; width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 16px rgba(158, 9, 235, 0.9);
+}
+
+@media (max-width: 760px) {
+  .stage { height: 220vh; }   /* shorter scroll track on phones (desktop: 420vh) */
+  .nav { padding: 16px; }
+  .logo__main, .logo__script { font-size: 21px; }
+  .nav__links { gap: 12px; }
+  .glow { width: 380px; height: 560px; margin: -280px 0 0 -190px; }
+  .hint { left: 16px; bottom: 16px; }
+  .hint__circle { width: 30px; height: 30px; }
+  .dot { right: 18px; bottom: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow { filter: none; }
+}

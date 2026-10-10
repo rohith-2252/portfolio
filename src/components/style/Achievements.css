@@ -1,182 +1,206 @@
-/* =========================================
-   GLOBAL RESET
-========================================= */
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=Space+Mono:wght@400;700&display=swap");
 
-* {
+.np {
+  --accent: #9e09eb;
+  --paper: #eed7f5;
+  --tape-gray: rgba(220, 220, 210, 0.75);
+  --tape-yellow: rgba(255, 250, 170, 0.8);
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ---------- desktop: fixed 1520x806 poster, scaled to fit by JS ---------- */
+.np__stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: top left;
+  width: 1520px;
+  height: 806px;
+  background: transparent;
+  color: #e1d2e9;
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+.np__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 92px 92px;
+}
+
+.np__title {
+  position: absolute;
+  left: 72px;
+  top: 40px;
+  margin: 0;
+  font-size: 56px;
+  line-height: 68px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+/* the purple marker ring is sized in em, so it follows the heading at any size */
+.np__hl { position: relative; display: inline-block; isolation: isolate; }
+.np__ring {
+  position: absolute;
+  z-index: -1;
+  left: -0.5em;
+  top: -0.3em;
+  width: calc(100% + 1.05em);
+  height: calc(100% + 0.6em);
+  overflow: visible;
+  pointer-events: none;
+}
+.np__ring-a { stroke: var(--accent); stroke-width: 5; vector-effect: non-scaling-stroke; }
+.np__ring-b { stroke: var(--accent); stroke-width: 3; opacity: 0.8; vector-effect: non-scaling-stroke; }
+
+.np__note {
+  position: absolute;
+  left: 1155px;
+  top: 80px;
+  width: 305px;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+.np__rule {
+  position: absolute;
+  left: 72px;
+  top: 246px;
+  width: 1382px;
+  height: 2px;
+  background: #555;
+}
+
+.np__links {
+  position: absolute;
+  inset: 0;
+  width: 1520px;
+  height: 806px;
+  pointer-events: none;
+}
+
+.np__list { display: contents; }
+
+/* ---------- cards: everything inside is sized in cqw of the card's own width ---------- */
+.card {
+  position: absolute;
+  container-type: inline-size;
+  color: #000;
+  font-family: "Space Mono", monospace;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+.card--accent { background: var(--accent); }
+.card--paper { background: var(--paper); }
+
+.card--1 { left: 58px;   top: 367px; width: 328px; height: 180px; transform: rotate(-3deg); }
+.card--2 { left: 427px;  top: 458px; width: 322px; height: 175px; transform: rotate(1.2deg); }
+.card--3 { left: 816px;  top: 313px; width: 324px; height: 172px; transform: rotate(1.8deg); }
+.card--4 { left: 1183px; top: 540px; width: 322px; height: 175px; transform: rotate(3.2deg); }
+
+.card__holes {
+  position: absolute;
+  left: 3.1cqw;
+  top: 6.2cqw;
+  bottom: 7.4cqw;
+  width: 2.8cqw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card__holes i { display: block; width: 2.8cqw; height: 1.25cqw; border-radius: 0.6cqw; background: #000; }
+
+.tape { position: absolute; width: 19.9cqw; height: 6.8cqw; }
+.tape--gray   { background: var(--tape-gray); }
+.tape--yellow { background: var(--tape-yellow); }
+.tape--left { left: -2.5cqw;  top: -5.6cqw; transform: rotate(-4deg); }
+.tape--mid  { left: 42.2cqw; top: -4.3cqw; transform: rotate(-2deg); }
+.card--3 .tape--left { transform: rotate(-3deg); }
+
+.card__num,
+.card__label { position: absolute; font-size: 3.2cqw; font-weight: 700; }
+.card__num { left: 12.4cqw; top: 11.8cqw; }
+.card__label { right: 6.2cqw; top: 11.2cqw; letter-spacing: 0.02em; }
+
+.card__dash { position: absolute; left: 11.8cqw; right: 5.6cqw; top: 19.9cqw; border-top: 1px dashed rgba(0, 0, 0, 0.3); }
+
+.card__title { position: absolute; left: 11.8cqw; top: 26cqw; font-size: 5.3cqw; font-weight: 700; }
+
+.card__desc {
+  position: absolute;
+  left: 11.8cqw;
+  bottom: 16cqw;
+  top: 36cqw;
+  font-size: 3.2cqw;
+
+  white-space: nowrap;
+}
+
+/* ---------- phones & tablets: cards stack top-to-bottom in a zig-zag ---------- */
+.np__stage--stack {
+  position: relative;
+  transform: none;
+  width: 100%;
+  height: auto;
+  padding: clamp(28px, 7vw, 56px) clamp(18px, 6vw, 48px) clamp(40px, 9vw, 72px);
   box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  background: #000;
-}
-
-body {
-  min-width: 320px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#root {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* =========================================
-   INFINITE MENU SECTION
-========================================= */
-
-.infinite-menu-section {
-  position: relative;
-
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-
-  margin: 0;
-  padding: 0;
-
   overflow: hidden;
-  background: #000;
+}
+.np__stage--stack > *:not(.np__grid) { position: relative; }
+.np__stage--stack .np__grid { position: absolute; }
+
+.np__stage--stack .np__title {
+  position: relative; left: auto; top: auto;
+  max-width: 720px; margin: 0 auto;
+  font-size: clamp(34px, 9.6vw, 64px);
+  line-height: 1.22;
+}
+.np__stage--stack .np__note {
+  position: relative; left: auto; top: auto;
+  width: auto; max-width: 720px;
+  margin: clamp(18px, 4vw, 28px) auto 0;
+  font-size: clamp(13px, 3.4vw, 16px);
+}
+.np__stage--stack .np__rule {
+  position: relative; left: auto; top: auto;
+  width: 100%; max-width: 720px;
+  margin: clamp(24px, 6vw, 40px) auto clamp(44px, 10vw, 64px);
 }
 
-/* =========================================
-   INFINITE MENU CONTAINER
-========================================= */
+.np__stage--stack .np__list {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+}
 
-.infinite-menu-container {
+.np__stage--stack .card {
   position: relative;
+  left: auto; top: auto;
+  width: min(88%, 460px);
+  height: auto;
+  aspect-ratio: 322 / 175;
+}
+.np__stage--stack .card--1,
+.np__stage--stack .card--3 { align-self: flex-start; }
+.np__stage--stack .card--2,
+.np__stage--stack .card--4 { align-self: flex-end; }
 
+.np__connector {
+  display: block;
   width: 100%;
-  height: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  overflow: hidden;
-  background: #000;
+  height: clamp(44px, 11vw, 72px);
+  margin: 6px 0;
+  overflow: visible;
 }
 
-/* =========================================
-   MOBILE PORTRAIT
-========================================= */
-
-@media (max-width: 768px) and (orientation: portrait) {
-  .infinite-menu-section {
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-
-    overflow: hidden;
-  }
-
-  .infinite-menu-container {
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-  }
-}
-/* =========================================
-   PORTFOLIO PAGE
-========================================= */
-
-.portfolio-page {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  background: #000;
-}
-
-/* =========================================
-   INFINITE MENU SECTION
-========================================= */
-
-.infinite-menu-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  background: #000;
-}
-
-/* =========================================
-   SCROLL BUTTON
-========================================= */
-
-.scroll-next-button {
-  display: none;
-}
-
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .scroll-next-button {
-    position: absolute;
-    z-index: 50;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    left: 50%;
-    bottom: 10px;
-
-    width: 42px;
-    height: 42px;
-
-    padding: 0;
-
-    transform: translateX(-50%);
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-
-    background: #9e09eb;
-    color: #fff;
-
-    font-size: 25px;
-
-    cursor: pointer;
-
-    animation: scroll-hint 1.5s ease-in-out infinite;
-
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .scroll-next-button:active {
-    transform: translateX(-50%) scale(0.92);
-  }
-}
-
-/* =========================================
-   SCROLL ANIMATION
-========================================= */
-
-@keyframes scroll-hint {
-  0%,
-  100% {
-    margin-bottom: 0;
-  }
-
-  50% {
-    margin-bottom: 5px;
-  }
-}
-
-/* =========================================
-   ACCESSIBILITY
-========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-next-button {
-    animation: none;
-  }
+@media (max-width: 360px) {
+  .np__stage--stack .card { width: 94%; }
 }

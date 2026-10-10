@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { CONTACT } from "../data";
 import ShutterGlyphFooter from "./interactive-component/ShutterGlyphFooter";
+import emailjs from "@emailjs/browser";
 export default function Footer() {
   const [show, setShow] = useState(false);
 

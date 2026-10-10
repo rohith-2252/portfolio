@@ -1,0 +1,101 @@
+.gloader {
+  --core: #ecc7ff;
+  --glow: #9e09eb;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 3.5vh, 30px);
+  background: #000;
+  color: #fff;
+  font-family: 'Rajdhani', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+  /* only opacity + transform are animated: cheap, runs on the GPU */
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.gloader.is-done { opacity: 0; transform: scale(1.04); pointer-events: none; }
+
+/* ---------- the glowing symbol ---------- */
+.gloader__symbol {
+  position: relative;
+  width: min(70vw, 40vh, 360px);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+
+/* soft round halo behind the symbol (a plain gradient = very cheap) */
+.gloader__halo {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(closest-side, var(--glow), transparent 100%);
+  opacity: 0.35;
+  will-change: opacity;
+  animation: gl-halo 2.4s ease-in-out infinite alternate;
+}
+
+/* every layer uses the symbol as a mask, so ANY logo glows in these colours */
+.gloader__layer {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--logo);
+  mask-image: var(--logo);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 66%;
+  mask-size: 66%;
+}
+.gloader__bloom {                    /* wide purple glow */
+  background: var(--glow);
+  filter: blur(22px);
+  transform: scale(1.12);
+  will-change: opacity;
+  animation: gl-pulse 2.4s ease-in-out infinite alternate;
+}
+.gloader__edge {                     /* tight bright glow */
+  background: var(--core);
+  filter: blur(8px);
+  opacity: 0.9;
+  will-change: opacity;
+  animation: gl-pulse 2.4s ease-in-out -1.2s infinite alternate;
+}
+.gloader__core {                     /* the crisp symbol, light -> purple gradient */
+  background: linear-gradient(180deg, #fff 0%, var(--core) 35%, var(--glow) 130%);
+}
+
+@keyframes gl-pulse { from { opacity: 0.45; } to { opacity: 1; } }
+@keyframes gl-halo  { from { opacity: 0.22; } to { opacity: 0.5; } }
+
+/* ---------- progress ---------- */
+.gloader__hud { width: min(78vw, 340px); text-align: center; }
+.gloader__num { display: flex; justify-content: center; align-items: flex-start; line-height: 0.9; }
+.gloader__num b {
+  font: 700 clamp(42px, 9vw, 72px)/0.9 'Rajdhani', 'Arial Narrow', sans-serif;
+  color: #d27bff;
+  text-shadow: 0 0 16px rgba(158, 9, 235, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+.gloader__num em { font: 700 clamp(16px, 3vw, 22px)/1 'Rajdhani', sans-serif; font-style: normal; margin: 4px 0 0 4px; }
+.gloader__bar { height: 3px; margin: 12px 0 10px; background: rgba(158, 9, 235, 0.25); overflow: hidden; }
+.gloader__bar span {
+  display: block; width: 100%; height: 100%;
+  transform: scaleX(0); transform-origin: left center;   /* scaled, not resized = no layout work */
+  background: linear-gradient(90deg, var(--glow), var(--core));
+  box-shadow: 0 0 12px var(--glow);
+}
+.gloader__status { font-size: clamp(10px, 2.6vw, 13px); letter-spacing: 0.22em; color: rgba(236, 196, 255, 0.85); }
+
+/* ---------- phones: smaller blurs = less GPU memory ---------- */
+@media (max-width: 768px) {
+  .gloader__bloom { filter: blur(16px); }
+  .gloader__edge { filter: blur(5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gloader__halo, .gloader__bloom, .gloader__edge { animation: none; opacity: 0.8; }
+  .gloader { transition: opacity 0.3s ease; }
+}

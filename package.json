@@ -13,6 +13,7 @@
     "@emailjs/browser": "^4.4.1",
     "framer-motion": "^12.43.0",
     "gl-matrix": "^3.4.4",
+    "matter-js": "^0.20.0",
     "motion": "^14.0.0",
     "ogl": "^1.0.11",
     "react": "^19.2.7",
