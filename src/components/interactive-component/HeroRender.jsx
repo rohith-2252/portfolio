@@ -30,8 +30,9 @@ const Ticker = () => (
   </>
 );
 
-export default function Hero({ onBack }) {
+export default function Hero() {
   const root = useRef(null);
+  const personRef = useRef(null);
   const cards = useRef([]);
 
   useEffect(() => {
@@ -48,8 +49,8 @@ export default function Hero({ onBack }) {
       portrait = W < H;
       el.dataset.layout = portrait ? "portrait" : "landscape";
       const cw = portrait
-  ? W * 0.20
-  : Math.min(W * 0.075, H * 0.13);
+        ? W * 0.20
+        : Math.min(W * 0.08, H * 0.14);
       cards.current.forEach((c) => {
         if (!c) return;
         c.style.width = cw + "px";
@@ -61,24 +62,27 @@ export default function Hero({ onBack }) {
     ro.observe(el);
 
     const loop = (now) => {
-      // Pause RAF if page is transitioning to prevent frame drops
-      if (el.closest('.pixel-swap')?.dataset?.transitioning === 'true') {
-        raf = requestAnimationFrame(loop);
-        return;
-      }
-
       // Smooth orbit speed: 1 full rotation every ~28s
       const speed = reduce ? 0 : ((now - t0) / 1000) * ((Math.PI * 2) / 28);
 
-      // Model center (Rohith is aligned right in landscape, centered in portrait)
-      const cx = portrait ? W * 0.50 : W * 0.77;
-      const cy = portrait ? H * 0.70 : H * 0.58;
+      // Model center (calculated relative to Rohith's cutout element)
+      let cx = portrait ? W * 0.50 : W * 0.77;
+      let cy = portrait ? H * 0.70 : H * 0.58;
+      let rx = portrait ? W * 0.40 : W * 0.26;
+      let ry = portrait ? H * 0.11 : H * 0.13;
+      let slope = portrait ? H * 0.05 : H * 0.08;
 
-      // Orbit radii: wide ellipse around the model
-      const rx = portrait ? W * 0.40 : W * 0.26;
-      const ry = portrait ? H * 0.11 : H * 0.13;
-      // Sloped diagonal band wrapping across the model's torso
-      const slope = portrait ? H * 0.05 : H * 0.08;
+      if (personRef.current) {
+        const pRect = personRef.current.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        if (pRect.width > 0 && pRect.height > 0) {
+          cx = (pRect.left + pRect.right) / 2 - elRect.left;
+          cy = pRect.top + pRect.height * 0.45 - elRect.top;
+          rx = Math.max(pRect.width * 0.58, portrait ? W * 0.38 : W * 0.22);
+          ry = Math.min(rx * 0.38, H * 0.14);
+          slope = portrait ? H * 0.04 : H * 0.06;
+        }
+      }
 
       cards.current.forEach((c, i) => {
         if (!c) return;
@@ -99,8 +103,8 @@ export default function Hero({ onBack }) {
         // Depth effects: front cards are larger, crisp; back cards shrink into distance
         const depth = sinA; // [-1, 1]
         const scale = depth > 0
-  ? 0.72 + depth * 0.16
-  : 0.55 + (depth + 1) * 0.18;
+          ? 0.72 + depth * 0.16
+          : 0.55 + (depth + 1) * 0.18;
         const opacity = depth > 0 ? 0.88 + depth * 0.12 : 0.35 + (depth + 1) * 0.45;
 
         // Occlusion layering relative to model (.hero__person is at z-index 5):
@@ -128,14 +132,9 @@ export default function Hero({ onBack }) {
       className="hero"
       ref={root}
       data-layout="landscape"
-      onClick={onBack}
-      onTouchEnd={onBack}
-      role="button"
-      tabIndex={0}
-      title="Touch anywhere to pixelate back to logo"
     >
       {/* Person model cutout - z-index: 5 */}
-      <img className="hero__person" src={person} alt="Rohith" decoding="async" />
+      <img ref={personRef} className="hero__person" src={person} alt="Rohith" decoding="async" />
 
       {/* Headline & intro content (z-index: 20) */}
       <div className="hero__content">

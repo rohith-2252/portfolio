@@ -1,9 +1,27 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CircularCarousel from "./interactive-component/CircularCarousel";
 
 export default function Projects() {
   const [paused, setPaused] = useState(false);
+  const [cardW, setCardW] = useState(440);
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (typeof window !== "undefined") {
+        if (window.innerWidth < 480) {
+          setCardW(Math.max(280, window.innerWidth - 64));
+        } else if (window.innerWidth < 768) {
+          setCardW(380);
+        } else {
+          setCardW(460);
+        }
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   const projects = [
     {
@@ -63,7 +81,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative px-6 py-12 overflow-hidden"
+      className="relative px-6 py-20 md:py-28 overflow-hidden"
     >
       <div className="mx-auto max-w-7xl">
 
@@ -84,16 +102,16 @@ export default function Projects() {
         </div>
 
         {/* Carousel */}
-        <div className="relative mx-auto h-[580px] w-full">
+        <div className="relative mx-auto h-[600px] md:h-[680px] w-full">
           <CircularCarousel
             items={projects}
 
             /* Card size */
-            cardWidth={340}
-            aspectRatio={1.5}
+            cardWidth={cardW}
+            aspectRatio={1.42}
 
             /* Spacing */
-            gap={45}
+            gap={50}
 
             /* 3D */
             curve={0}

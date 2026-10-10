@@ -552,11 +552,16 @@ const CircularCarousel = ({
           transform = `rotateY(${base}deg) translateZ(${r}px)`;
           if (s.layout.billboard) transform += ` rotateY(${-(base + angle)}deg)`;
         }
-        if (mod.lift) transform += s.axis === 'x' ? ` translateX(${mod.lift}px)` : ` translateY(${mod.lift}px)`;
-        card.style.transform = transform;
-
         const world = wrap(base + angle);
         const facing = Math.cos(world * TO_RAD);
+        const frontFactor = Math.max(0, facing);
+        // Zoom effect on element in front
+        const zoom = 1 + Math.pow(frontFactor, 2.4) * 0.28;
+        if (mod.lift) transform += s.axis === 'x' ? ` translateX(${mod.lift}px)` : ` translateY(${mod.lift}px)`;
+        transform += ` scale(${zoom.toFixed(4)})`;
+        card.style.transform = transform;
+        card.style.zIndex = Math.round(5 + frontFactor * 30);
+
         if (s.layout.inward) card.style.visibility = Math.abs(world) > 86 ? 'hidden' : '';
         const fade = s.depthFade * Math.pow((1 - facing) / 2, 1.25);
         card.style.setProperty('--cc-depth', fade.toFixed(3));

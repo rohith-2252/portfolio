@@ -1,27 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ElectricLogo from "./interactive-component/ElectricLogo";
-import PixelSwap from "./interactive-component/PixelSwap";
-import Hero from "./interactive-component/HeroRender";
+import HeroRender from "./interactive-component/HeroRender";
+import personImg from "../assets/rohith.png";
 import "./style/Hero.css";
 
-export default function App() {
+export default function Hero() {
   const [revealed, setRevealed] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [homeLoaded, setHomeLoaded] = useState(false);
 
-  const goBack = () => {
-    setRevealed(false);
+  // Preload Home page requirements (Electric Logo & Rohith's Hero cutout image)
+  useEffect(() => {
+    const homeAssets = ["/logo.png", personImg];
+    let loadedCount = 0;
+
+    const onDone = () => {
+      loadedCount++;
+      if (loadedCount >= homeAssets.length) {
+        setHomeLoaded(true);
+      }
+    };
+
+    homeAssets.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = onDone;
+      img.onerror = onDone;
+    });
+
+    // Fast fallback safety timer (maximum 400ms)
+    const timer = setTimeout(() => setHomeLoaded(true), 400);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleReveal = () => {
+    if (revealed || isExiting) return;
+    setIsExiting(true);
+    setTimeout(() => {
+      setRevealed(true);
+    }, 450);
   };
 
   return (
-    <div className="stage">
-      <PixelSwap
-        active={revealed}
-        firstContent={
+    <div id="home" className="hero-stage">
+      <div
+        className="hero-swap-container"
+        style={{
+          opacity: homeLoaded ? 1 : 0.85,
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        {!revealed && (
           <div
-            className="click-prompt"
+            className={`hero-logo-layer ${isExiting ? "exiting" : ""}`}
             role="button"
             tabIndex={0}
-            onClick={() => setRevealed(true)}
-            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setRevealed(true)}
+            onClick={handleReveal}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleReveal()}
+            aria-label="Click to enter portfolio"
           >
             <ElectricLogo
               src="/logo.png"
@@ -42,14 +78,24 @@ export default function App() {
               cursorIntensity={0.75}
               cursorRadius={100}
             />
+            <button
+              type="button"
+              className="hero-prompt-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleReveal();
+              }}
+            >
+              [ Tap / Click to Enter ]
+            </button>
           </div>
-        }
-        secondContent={
-          <div className="found-message">
-            <Hero onBack={goBack} />
-          </div>
-        }
-      />
+        )}
+
+        <div className={`hero-render-layer ${revealed ? "active" : ""}`}>
+          {/* Mount HeroRender when revealed or exiting to start RAF loop cleanly */}
+          {(revealed || isExiting) && <HeroRender />}
+        </div>
+      </div>
     </div>
   );
 }

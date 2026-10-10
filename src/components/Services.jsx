@@ -214,20 +214,9 @@ export default function Services() {
   }, []);
 
   return (
-    <main className="page">
-      <header className="nav">
-        <a className="logo" href="#top" aria-label="Kodo Labs">
-          <span className="logo__main">kodo</span>
-          <span className="logo__script">Labs</span>
-        </a>
-        <nav className="nav__links">
-          <a href="#agency">[AGENCY]</a>
-          <a href="#contact">[CONTACT]</a>
-        </nav>
-      </header>
-
-      <section className="stage" aria-label="Services">
-        <div className="stage__sticky" ref={stickyRef}>
+    <div className="services-page" id="services">
+      <section className="services-stage" aria-label="Services">
+        <div className="services-stage__sticky" ref={stickyRef}>
           <div className="dots" />
           <div className="glow" ref={glowRef} />
 
@@ -245,6 +234,6 @@ export default function Services() {
           <span className="dot" ref={dotRef} />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

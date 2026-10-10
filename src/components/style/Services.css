@@ -9,29 +9,11 @@
   --script: "Allura", "Brush Script MT", cursive;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--bg); }
-body { background: var(--bg); color: var(--ink); overflow-x: hidden; }
+.services-page { position: relative; }
 
-.page { position: relative; }
-
-/* ---------- nav ---------- */
-.nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 20;
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 22px 24px; pointer-events: none;
-}
-.nav a { pointer-events: auto; color: inherit; text-decoration: none; }
-.logo { display: flex; align-items: baseline; gap: 4px; }
-.logo__main { font: 800 26px/1 "Poppins", "Arial Rounded MT Bold", sans-serif; letter-spacing: -0.04em; }
-.logo__script { font: 400 26px/1 var(--script); color: var(--accent-light); }
-.nav__links { display: flex; gap: 18px; font: 500 10px/1 var(--mono); }
-.nav__links a:hover { color: var(--accent-light); }
-.nav a:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 4px; }
-
-/* ---------- stage (scroll track) ---------- */
-.stage { height: 420vh; }
-.stage__sticky {
+/* ---------- services-stage (scroll track) ---------- */
+.services-stage { height: 420vh; }
+.services-stage__sticky {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   background:
     radial-gradient(ellipse 55% 50% at 50% 52%, rgba(158, 9, 235, 0.22), transparent 70%),
@@ -245,10 +227,7 @@ body { background: var(--bg); color: var(--ink); overflow-x: hidden; }
 }
 
 @media (max-width: 760px) {
-  .stage { height: 220vh; }   /* shorter scroll track on phones (desktop: 420vh) */
-  .nav { padding: 16px; }
-  .logo__main, .logo__script { font-size: 21px; }
-  .nav__links { gap: 12px; }
+  .services-stage { height: 220vh; }   /* shorter scroll track on phones (desktop: 420vh) */
   .glow { width: 380px; height: 560px; margin: -280px 0 0 -190px; }
   .hint { left: 16px; bottom: 16px; }
   .hint__circle { width: 30px; height: 30px; }

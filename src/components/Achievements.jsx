@@ -44,7 +44,7 @@ export default function Achievements(){
   const scale = width / DESIGN_W;
 
   return (
-    <div className="np" ref={wrapRef} style={stack ? undefined : { height: DESIGN_H * scale }}>
+    <div className="np my-16 md:my-28" id="achievements" ref={wrapRef} style={stack ? undefined : { height: DESIGN_H * scale }}>
       <div
         className={`np__stage${stack ? " np__stage--stack" : ""}`}
         style={stack ? undefined : { transform: `scale(${scale})` }}

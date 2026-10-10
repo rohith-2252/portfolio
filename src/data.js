@@ -1,11 +1,9 @@
 export const NAV_LINKS = [
   { id: "about", label: "About" },
-  { id: "education", label: "Education" },
   { id: "skills", label: "Skills" },
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
   { id: "achievements", label: "Achievements" },
-  { id: "contact", label: "Contact" },
 ];
 
 export const ROLES = [

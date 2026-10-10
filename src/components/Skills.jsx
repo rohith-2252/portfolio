@@ -1,6 +1,3 @@
-import { motion } from "framer-motion";
-import { SKILL_GROUPS } from "../data";
-import { SectionHeading } from "./Education";
 import "./style/DevSoul.css";
 import { useState } from "react";
 
@@ -118,7 +115,7 @@ const COLUMNS = [
 export default function Skills() {
     const [active, setActive] = useState(null);
   return (
-    <section className="ds">
+    <section className="ds my-12 md:my-20" id="skills">
       <div className="ds-stage">
         <svg className="ds-logo" viewBox="0 0 40 40" aria-label="Logo" role="img">
           <path d="M20 2l5 11 11-5-5 11 9 5-11 4 2 12-11-8-11 8 2-12-11-4 9-5-5-11 11 5z" fill="none" stroke="#0b0b0d" strokeWidth="1.6" strokeLinejoin="round" />
