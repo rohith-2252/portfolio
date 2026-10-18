@@ -81,7 +81,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative px-6 py-20 md:py-28 overflow-hidden"
+      className="relative px-6 pt-4 pb-16 md:pt-8 md:pb-24 overflow-hidden scroll-mt-20"
     >
       <div className="mx-auto max-w-7xl">
 

@@ -139,14 +139,11 @@ export default function Hero() {
       {/* Headline & intro content (z-index: 20) */}
       <div className="hero__content">
         <h1 className="hero__title">
-          <span className="l1">Work that</span>
-          <span className="l2"><span>Begins</span><span>with</span></span>
-          <span className="l3">Strategy.</span>
+          <span className="l2">work that plays huge role</span>
         </h1>
 
         <p className="hero__desc">
-          A selection of identity systems, digital experiences, and creative direction developed for
-          founders, startups, and established businesses across diverse industries.
+          Full Stack 
         </p>
 
         <div className="hero__actions">

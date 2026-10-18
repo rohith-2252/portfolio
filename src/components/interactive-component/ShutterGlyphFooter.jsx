@@ -200,14 +200,14 @@ export const mixHex = (a, b, t) => {
     return "#" + x.map((v, i) => Math.round(v + (y[i] - v) * k).toString(16).padStart(2, "0")).join("");
 };
 const DEFAULT_SOCIALS = [
-    { label: "Instagram", href: "#" },
-    { label: "Linked In", href: "#" },
-    { label: "Twitter[X]", href: "#" },
+    { label: "Instagram", href: "https://www.instagram.com/_rohith_x_x_/" },
+    { label: "Linked In", href: "https://www.linkedin.com/in/rohith-r-it-student" },
+    { label: "Github", href: "https://github.com/rohith-2252/" },
 ];
 const DEFAULT_LEGAL = [
-    { label: "projects", href: "#" },
-    { label: "achivements", href: "#" },
-    { label: "about", href: "#" },
+    { label: "leetcode", href: "https://leetcode.com/u/Rohith_Rohan/" },
+    { label: "email", href: "rohith.r2252@gmail.com" },
+    { label: "about", href: "https://portfolio-cw93.onrender.com/" },
 ];
 const MONO = '"JetBrains Mono", "IBM Plex Mono", "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace';
 // One scoped stylesheet. Every rule sits under .sgf; element resets go through

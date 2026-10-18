@@ -117,14 +117,7 @@ export default function Skills() {
   return (
     <section className="ds my-12 md:my-20" id="skills">
       <div className="ds-stage">
-        <svg className="ds-logo" viewBox="0 0 40 40" aria-label="Logo" role="img">
-          <path d="M20 2l5 11 11-5-5 11 9 5-11 4 2 12-11-8-11 8 2-12-11-4 9-5-5-11 11 5z" fill="none" stroke="#0b0b0d" strokeWidth="1.6" strokeLinejoin="round" />
-          <circle cx="20" cy="21" r="4" fill="#0b0b0d" />
-        </svg>
 
-        <button className="ds-menu" aria-label="Open menu">
-          <span /><span /><span />
-        </button>
 
         <div className="ds-cols">
           {COLUMNS.map(({ letter, word, tagline, Art: Scene }, i) => (
@@ -150,8 +143,6 @@ export default function Skills() {
             </div>
           ))}
         </div>
-
-        <span className="ds-copy">COPYRIGHT © 2026</span>
       </div>
     </section>
   );

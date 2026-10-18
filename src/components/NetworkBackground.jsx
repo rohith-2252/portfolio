@@ -17,7 +17,7 @@ export default function NetworkBackground() {
     <div className="fixed inset-0 -z-10 h-screen w-screen pointer-events-none">
       <CursorGrid
         cellSize={isMobile ? 32 : 70}
-        color="#1f1fd2"
+        color="#9e09eb"
         radius={isMobile ? 80 : 140}
         falloff="smooth"
         holdTime={400}

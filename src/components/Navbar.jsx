@@ -16,11 +16,7 @@ export default function Navbar() {
 
   // Prevent background scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -29,18 +25,16 @@ export default function Navbar() {
   const handleLinkClick = (href) => {
     setMobileMenuOpen(false);
     const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <header className="fixed left-0 top-0 z-50 w-full transition-all duration-300">
-      {/* DESKTOP NAVBAR (GooeyNav) */}
+      {/* DESKTOP / LAPTOP NAVBAR: logo (image) + GooeyNav */}
       <div className="mx-auto hidden max-w-7xl justify-center px-4 py-4 md:flex">
         <div
           className="
-            w-full max-w-5xl
+            flex w-full max-w-5xl items-center gap-4
             rounded-2xl
             border border-[#9e09eb]/60
             bg-[#10071a]/95
@@ -49,26 +43,43 @@ export default function Navbar() {
             backdrop-blur-md
           "
         >
-          <GooeyNav
-            items={items}
-            particleCount={15}
-            particleDistances={[90, 10]}
-            particleR={100}
-            initialActiveIndex={0}
-            animationTime={600}
-            timeVariance={300}
-            colors={["#ffffff"]}
+          {/* image always visible; brand text appears from lg up */}
+          <Logo
+            name="Rohith"
+            tagline="Dev"
+            href="#home"
+            textClassName="hidden lg:inline"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLinkClick("#home");
+            }}
           />
+
+          <div className="flex min-w-0 flex-1 justify-center">
+            <GooeyNav
+              items={items}
+              particleCount={15}
+              particleDistances={[90, 10]}
+              particleR={100}
+              initialActiveIndex={0}
+              animationTime={600}
+              timeVariance={300}
+              colors={["#ffffff"]}
+            />
+          </div>
         </div>
       </div>
 
-      {/* MOBILE NAVBAR (Hamburger Header) */}
+      {/* MOBILE NAVBAR (logo image + hamburger) */}
       <div className="flex w-full items-center justify-between px-4 py-3 md:hidden">
         <div className="flex w-full items-center justify-between rounded-2xl border border-[#9e09eb]/50 bg-[#10071a]/90 px-4 py-2.5 shadow-[0_6px_25px_rgba(158,9,235,0.2)] backdrop-blur-xl">
-          {/* Logo */}
-          <Logo name="Rohith" tagline="Dev" href="#home" onClick={() => setMobileMenuOpen(false)} />
+          <Logo
+            name="Rohith"
+            tagline="Dev"
+            href="#home"
+            onClick={() => setMobileMenuOpen(false)}
+          />
 
-          {/* Hamburger Toggle Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -95,7 +106,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE MENU MODAL / OVERLAY */}
+      {/* MOBILE MENU OVERLAY */}
       {mobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 flex flex-col bg-[#050605]/95 px-6 pt-24 pb-8 backdrop-blur-2xl md:hidden"
@@ -114,11 +125,9 @@ export default function Navbar() {
                   handleLinkClick(item.href);
                 }}
                 className="group relative flex w-full max-w-xs items-center justify-center rounded-xl border border-white/5 bg-white/[0.03] py-3.5 text-lg font-medium tracking-wide text-white/90 transition-all duration-200 hover:border-[#9e09eb]/60 hover:bg-[#9e09eb]/15 hover:text-white"
-                style={{
-                  animation: `fadeInUp 0.3s ease forwards ${idx * 0.05}s`,
-                }}
+                style={{ animation: `fadeInUp 0.3s ease forwards ${idx * 0.05}s` }}
               >
-                <span className="text-[#9e09eb] opacity-60 transition-opacity group-hover:opacity-100 mr-2 text-xs">
+                <span className="mr-2 text-xs text-[#9e09eb] opacity-60 transition-opacity group-hover:opacity-100">
                   0{idx + 1}.
                 </span>
                 {item.label}
@@ -126,7 +135,7 @@ export default function Navbar() {
             ))}
 
             <div className="mt-6 flex items-center justify-center gap-4 text-xs text-slate-400">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#9e09eb] animate-ping" />
+              <span className="inline-block h-1.5 w-1.5 animate-ping rounded-full bg-[#9e09eb]" />
               <span>ROHITH PORTFOLIO</span>
             </div>
           </div>

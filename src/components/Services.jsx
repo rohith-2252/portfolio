@@ -153,6 +153,7 @@ function Phone({ innerRef }) {
 }
 
 export default function Services() {
+  const stageRef = useRef(null);
   const sceneRef = useRef(null);
   const stickyRef = useRef(null);
   const ringRefs = useRef([]);
@@ -167,25 +168,28 @@ export default function Services() {
     let raf;
 
     const frame = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const target = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      let target = 0;
+      if (stageRef.current) {
+        const rect = stageRef.current.getBoundingClientRect();
+        // Measure scroll as section moves through viewport
+        const total = window.innerHeight + stageRef.current.offsetHeight;
+        target = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / total));
+      }
       cur += (target - cur) * 0.08;                // smooth follow
       if (!reduce) idle += 0.12;
 
       // fit the whole composition to the viewport
-      // ONE layout for every screen: the same scene, scaled to fit the viewport.
-      // Perspective is scaled too, so mobile looks exactly like desktop.
       const w = window.innerWidth, h = window.innerHeight;
-      const s = Math.min(w / 1000, h / 900, 1);
+      const s = Math.min(w / 1000, h / 900, 0.95);
       if (stickyRef.current) stickyRef.current.style.perspective = `${1500 * s}px`;
       if (sceneRef.current) sceneRef.current.style.transform = `scale3d(${s}, ${s}, ${s})`;
 
-      // TEXT RINGS: rotate + travel DOWN while scrolling
+      // TEXT RINGS: rotate in 3D without drifting off the bottom
       RINGS.forEach((r, i) => {
         const el = ringRefs.current[i];
         if (!el) return;
-        const y = r.y + cur * (560 + i * 150);
-        const rot = START_ROT + cur * 540 * r.speed + idle * (i % 2 ? -1 : 1);
+        const y = r.y + (cur - 0.5) * 45;
+        const rot = START_ROT + cur * 400 * r.speed + idle * (i % 2 ? -1 : 1);
         el.style.transform = `translateY(${y}px) rotateX(-2deg) rotateY(${rot}deg)`;
         // far side of the cylinder = blurred, like glass seen from behind
         const kids = el.children;
@@ -195,17 +199,17 @@ export default function Services() {
         }
       });
 
-      // PHONE: rotate (opposite way) + travel UP while scrolling
+      // PHONE: rotate in 3D while scrolling
       if (phoneRef.current) {
-        const y = -cur * 620;
-        const rot = PHONE_START - cur * 720 + idle * 0.4;
+        const y = (0.5 - cur) * 35;
+        const rot = PHONE_START - cur * 460 + idle * 0.4;
         phoneRef.current.style.transform = `translateY(${y}px) rotateX(-6deg) rotateY(${rot}deg)`;
       }
       if (glowRef.current) {
-        glowRef.current.style.transform = `translateY(${-cur * 620}px)`;
-        glowRef.current.style.opacity = String(1 - cur * 0.6);
+        glowRef.current.style.transform = `translateY(${(0.5 - cur) * 35}px)`;
+        glowRef.current.style.opacity = "1";
       }
-      if (dotRef.current) dotRef.current.style.transform = `translateY(${-cur * 120}px)`;
+      if (dotRef.current) dotRef.current.style.transform = `translateY(${-cur * 40}px)`;
 
       raf = requestAnimationFrame(frame);
     };
@@ -215,7 +219,7 @@ export default function Services() {
 
   return (
     <div className="services-page" id="services">
-      <section className="services-stage" aria-label="Services">
+      <section className="services-stage" ref={stageRef} aria-label="Services">
         <div className="services-stage__sticky" ref={stickyRef}>
           <div className="dots" />
           <div className="glow" ref={glowRef} />
@@ -228,8 +232,8 @@ export default function Services() {
           </div>
 
           <div className="hint">
-            <span className="hint__circle" />
-            <span>SCROLL</span>
+            
+        
           </div>
           <span className="dot" ref={dotRef} />
         </div>

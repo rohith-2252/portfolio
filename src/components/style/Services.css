@@ -11,10 +11,20 @@
 
 .services-page { position: relative; }
 
-/* ---------- services-stage (scroll track) ---------- */
-.services-stage { height: 420vh; }
+/* ---------- services-stage ---------- */
+.services-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  max-height: 900px;
+  overflow: hidden;
+}
 .services-stage__sticky {
-  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   background:
     radial-gradient(ellipse 55% 50% at 50% 52%, rgba(158, 9, 235, 0.22), transparent 70%),
     #000;
@@ -227,7 +237,12 @@
 }
 
 @media (max-width: 760px) {
-  .services-stage { height: 220vh; }   /* shorter scroll track on phones (desktop: 420vh) */
+  .services-stage {
+    height: 80vh;
+    min-height: 500px;
+    max-height: 650px;
+  }
+  .scene { top: 48%; }
   .glow { width: 380px; height: 560px; margin: -280px 0 0 -190px; }
   .hint { left: 16px; bottom: 16px; }
   .hint__circle { width: 30px; height: 30px; }

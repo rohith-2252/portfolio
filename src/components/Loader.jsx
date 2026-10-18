@@ -16,7 +16,7 @@ import './style/Loader.css';
  *  - glowColor  glow colour          (default #9e09eb)
  *  - onDone     called after the fade-out has finished
  */
-const BOLT = './logo.png'
+const BOLT = '/logo.png';
 
 const STATUS = [
   'INITIALIZING CORE',
@@ -28,7 +28,7 @@ const STATUS = [
 
 export default function Loader({
   src = BOLT,
-  duration = 4200,
+  duration = 2000,
   progress,
   color = '#ecc7ff',
   glowColor = '#9e09eb',
@@ -43,9 +43,36 @@ export default function Loader({
   const timers = useRef([]);
   const onDoneRef = useRef(onDone);
   const [done, setDone] = useState(false);
+  const [imgReady, setImgReady] = useState(false);
+  const imgReadyRef = useRef(false);
   const controlled = typeof progress === 'number';
 
   useEffect(() => { onDoneRef.current = onDone; });
+
+  // Ensure logo image is preloaded and ready (critical when hosted on cloud like Render)
+  useEffect(() => {
+    let active = true;
+    const img = new Image();
+    img.src = src;
+    if (img.complete) {
+      imgReadyRef.current = true;
+      setImgReady(true);
+    } else {
+      img.onload = () => {
+        if (!active) return;
+        imgReadyRef.current = true;
+        setImgReady(true);
+      };
+      img.onerror = () => {
+        if (!active) return;
+        imgReadyRef.current = true;
+        setImgReady(true);
+      };
+    }
+    return () => {
+      active = false;
+    };
+  }, [src]);
 
   /* Updates the DOM directly -> React does NOT re-render 60x per second */
   const paint = p => {
@@ -73,13 +100,19 @@ export default function Loader({
     let start;
     const tick = now => {
       if (start === undefined) start = now;
-      const t = Math.min(1, (now - start) / duration);
+      let rawT = Math.min(1, (now - start) / duration);
+      // If logo image is still downloading over network (e.g. on Render),
+      // pause progress smoothly at 78% until the image is loaded (max 3.5s safety timeout)
+      if (!imgReadyRef.current && (now - start) < 3500) {
+        rawT = Math.min(0.78, rawT);
+      }
+      const t = rawT;
       paint(100 * (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2));
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [duration, controlled]); // eslint-disable-line
+  }, [duration, controlled, imgReady]); // eslint-disable-line
 
   /* app-driven progress */
   useEffect(() => {

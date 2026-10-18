@@ -30,7 +30,7 @@ export default function App() {
   return (
     <>
       {/* Fast HUD loader overlay (smoothly fades out and unblocks) */}
-      {!ready && <Loader duration={1600} onDone={() => setReady(true)} />}
+      {!ready && <Loader duration={2000} onDone={() => setReady(true)} />}
 
       <div
         id="app"
