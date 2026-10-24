@@ -47,61 +47,164 @@
 /* ── Left content wrapper (z-index: 20) ── */
 .hero__content {
   position: absolute;
-  left: 2.5%;
-  top: 11%;
+  left: 3.5%;
+  top: 13%;
   width: 48%;
+  max-width: 580px;
   z-index: 20;
   pointer-events: auto;
+  display: flex;
+  flex-direction: column;
 }
 
+/* ── Available Badge ── */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(158, 9, 235, 0.12);
+  border: 1px solid rgba(158, 9, 235, 0.35);
+  backdrop-filter: blur(8px);
+  margin-bottom: 16px;
+  box-shadow: 0 0 15px rgba(158, 9, 235, 0.15);
+}
+
+.hero__badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #bb12d1;
+  box-shadow: 0 0 8px #bb12d1;
+  animation: heroDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes heroDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.hero__badge-text {
+  font-size: clamp(9px, 0.72vw, 11px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #eed7f5;
+  font-family: monospace;
+}
+
+/* ── Name Headline ── */
 .hero__title {
   margin: 0;
-  font-weight: 500;
-  font-size: clamp(2.2rem, 5.8vw, 6.8rem);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 5.4vw, 5.6rem);
   line-height: 0.95;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #fff 0%, #bfc3c0 100%);
+}
+
+.hero__name {
+  display: block;
+  background: linear-gradient(180deg, #ffffff 0%, #ece5f3 50%, #bca5d4 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-.hero__title span { display: flex; }
-.hero__title .l1 { justify-content: flex-end; padding-left: 28%; }
-.hero__title .l2 { justify-content: space-between; }
-.hero__title .l3 { justify-content: flex-start; }
-
-.hero__desc {
-  margin: 32px 0 0 28%;
-  width: 60%;
-  min-width: 170px;
-  font-size: clamp(9px, 0.76vw, 12px);
-  line-height: 1.45;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.78);
-  letter-spacing: 0.04em;
+  filter: drop-shadow(0 4px 18px rgba(158, 9, 235, 0.25));
 }
 
-.hero__actions {
-  margin: 28px 0 0 28%;
+/* ── Role Specification Box ── */
+.hero__role-box {
+  margin-top: 14px;
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero__role-main {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.8vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero__role-specs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(9.5px, 0.75vw, 12px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__spec-badge {
+  color: #d27bff;
+  font-weight: 500;
+}
+
+.hero__spec-dot {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Description ── */
+.hero__desc {
+  margin: 18px 0 0 0;
+  width: 90%;
+  max-width: 480px;
+  font-size: clamp(10.5px, 0.8vw, 13px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.02em;
+}
+
+/* ── Actions ── */
+.hero__actions {
+  margin: 24px 0 0 0;
+  display: flex;
+  gap: 20px;
 }
 
 .hero__btn {
-  padding: 0;
-  border: 0;
-  background: none;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
   cursor: pointer;
   font: inherit;
-  font-size: clamp(9px, 0.78vw, 12px);
+  font-size: clamp(10px, 0.78vw, 12px);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: opacity 0.2s ease;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
 }
-.hero__btn:hover {
-  opacity: 0.6;
+
+.hero__btn.a {
+  background: rgba(158, 9, 235, 0.2);
+  border-color: rgba(158, 9, 235, 0.6);
+  color: #f3e8ff;
+  box-shadow: 0 0 16px rgba(158, 9, 235, 0.2);
+}
+
+.hero__btn.a:hover {
+  background: rgba(158, 9, 235, 0.35);
+  border-color: rgba(210, 123, 255, 0.9);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(158, 9, 235, 0.5);
+  transform: translateY(-2px);
+}
+
+.hero__btn.b:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 /* ── 3D Orbit Cards (Square Shaped, Clean) ── */
@@ -177,46 +280,153 @@
 /* ── Portrait / Mobile Phones ── */
 .hero[data-layout="portrait"] .hero__content {
   left: 5%;
-  top: 6%;
+  top: clamp(82px, 12vh, 98px);
   width: 90%;
+  max-width: 100%;
 }
+
+.hero[data-layout="portrait"] .hero__badge {
+  margin-bottom: 8px;
+  padding: 4px 12px;
+}
+
+.hero[data-layout="portrait"] .hero__badge-text {
+  font-size: clamp(8.5px, 2.4vw, 10px);
+}
+
 .hero[data-layout="portrait"] .hero__title {
-  font-size: clamp(2.2rem, 11vw, 3.8rem);
-  line-height: 0.94;
+  font-size: clamp(2.1rem, 9.2vw, 3.2rem);
+  line-height: 1;
 }
-.hero[data-layout="portrait"] .hero__title .l1 {
-  padding-left: 18%;
+
+.hero[data-layout="portrait"] .hero__role-box {
+  margin-top: 8px;
+  gap: 4px;
 }
+
+.hero[data-layout="portrait"] .hero__role-main {
+  font-size: clamp(0.95rem, 4.2vw, 1.25rem);
+}
+
+.hero[data-layout="portrait"] .hero__role-specs {
+  font-size: clamp(8.5px, 2.6vw, 10.5px);
+  gap: 5px;
+}
+
 .hero[data-layout="portrait"] .hero__desc {
-  margin: 14px 0 0 0;
-  width: 86%;
-  font-size: clamp(10px, 2.7vw, 13px);
-  line-height: 1.38;
+  margin: 10px 0 0 0;
+  width: 96%;
+  font-size: clamp(9.5px, 2.7vw, 11.5px);
+  line-height: 1.4;
 }
+
 .hero[data-layout="portrait"] .hero__actions {
   margin: 14px 0 0 0;
-  gap: 16px;
+  gap: 12px;
 }
+
 .hero[data-layout="portrait"] .hero__btn {
-  font-size: clamp(10px, 2.7vw, 12px);
+  padding: 6px 14px;
+  font-size: clamp(9px, 2.6vw, 11px);
 }
+
 .hero[data-layout="portrait"] .hero__person {
   right: 0;
   left: 0;
   margin: 0 auto;
-  bottom: 4%;
-  height: 56%;
-  max-width: 88%;
+  bottom: 3.5%;
+  height: 48%;
+  max-width: 82%;
   object-fit: contain;
   object-position: center bottom;
 }
+
 .hero[data-layout="portrait"] .hero__ticker {
   left: -4%;
   width: 108%;
-  height: clamp(26px, 7vw, 36px);
-  bottom: 2.8%;
-  transform: rotate(4.5deg);
+  height: clamp(24px, 6.5vw, 32px);
+  bottom: 2%;
+  transform: rotate(3.5deg);
 }
+
 .hero[data-layout="portrait"] .hero__marquee {
-  font-size: clamp(9px, 2.5vw, 12px);
+  font-size: clamp(8.5px, 2.4vw, 11px);
+}
+
+/* ── Fallback Media Query for small screens ── */
+@media (max-width: 768px) {
+  .hero .hero__content {
+    left: 5%;
+    top: clamp(82px, 12vh, 98px);
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .hero .hero__badge {
+    margin-bottom: 8px;
+    padding: 4px 12px;
+  }
+
+  .hero .hero__badge-text {
+    font-size: clamp(8.5px, 2.4vw, 10px);
+  }
+
+  .hero .hero__title {
+    font-size: clamp(2.1rem, 9.2vw, 3.2rem);
+    line-height: 1;
+  }
+
+  .hero .hero__role-box {
+    margin-top: 8px;
+    gap: 4px;
+  }
+
+  .hero .hero__role-main {
+    font-size: clamp(0.95rem, 4.2vw, 1.25rem);
+  }
+
+  .hero .hero__role-specs {
+    font-size: clamp(8.5px, 2.6vw, 10.5px);
+    gap: 5px;
+  }
+
+  .hero .hero__desc {
+    margin: 10px 0 0 0;
+    width: 96%;
+    font-size: clamp(9.5px, 2.7vw, 11.5px);
+    line-height: 1.4;
+  }
+
+  .hero .hero__actions {
+    margin: 14px 0 0 0;
+    gap: 12px;
+  }
+
+  .hero .hero__btn {
+    padding: 6px 14px;
+    font-size: clamp(9px, 2.6vw, 11px);
+  }
+
+  .hero .hero__person {
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    bottom: 3.5%;
+    height: 48%;
+    max-width: 82%;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  .hero .hero__ticker {
+    left: -4%;
+    width: 108%;
+    height: clamp(24px, 6.5vw, 32px);
+    bottom: 2%;
+    transform: rotate(3.5deg);
+  }
+
+  .hero .hero__marquee {
+    font-size: clamp(8.5px, 2.4vw, 11px);
+  }
 }
