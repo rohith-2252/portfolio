@@ -19,11 +19,20 @@ const PROJECT_CARDS = [
   { id: 14, title: "Identity Lab", tag: "Selected", src: "/render/13.png", dark: false },
 ];
 
+const TICKER_ITEMS = [
+  "Rohith R",
+  "Full Stack Developer",
+  "Software Engineer",
+  "Java & Spring",
+  "Gen AI Integration",
+  "Turning Complexity Into Clarity",
+];
+
 const Ticker = () => (
   <>
-    {[0, 1, 2, 3].map((k) => (
-      <span key={k} style={{ display: "contents" }}>
-        <span>{k % 2 ? "Creative Director" : "Turning complexity into clarity"}</span>
+    {TICKER_ITEMS.map((item, idx) => (
+      <span key={idx} style={{ display: "contents" }}>
+        <span>{item}</span>
         <b>▪ ▪</b>
       </span>
     ))}
@@ -138,17 +147,51 @@ export default function Hero() {
 
       {/* Headline & intro content (z-index: 20) */}
       <div className="hero__content">
+        <div className="hero__badge">
+          <span className="hero__badge-dot" />
+          <span className="hero__badge-text">Available for Opportunities</span>
+        </div>
+
         <h1 className="hero__title">
-          <span className="l2">work that plays huge role</span>
+          <span className="hero__name">Rohith R</span>
         </h1>
 
+        <div className="hero__role-box">
+          <h2 className="hero__role-main">Full Stack Developer</h2>
+          <div className="hero__role-specs">
+            <span className="hero__spec-badge">Software Engineer</span>
+            <span className="hero__spec-dot">/</span>
+            <span className="hero__spec-badge">Java Backend</span>
+            <span className="hero__spec-dot">/</span>
+            <span className="hero__spec-badge">Gen AI Specialist</span>
+          </div>
+        </div>
+
         <p className="hero__desc">
-          Full Stack 
+          Engineering scalable web architectures, robust Java applications, and intelligent AI-powered solutions with clean, maintainable code.
         </p>
 
         <div className="hero__actions">
-          <button className="hero__btn a">[ Explore Projects ]</button>
-          <button className="hero__btn b">[ Start a Project ]</button>
+          <button
+            type="button"
+            className="hero__btn a"
+            onClick={() => {
+              const el = document.querySelector("#projects");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            [ Explore Projects ]
+          </button>
+          <button
+            type="button"
+            className="hero__btn b"
+            onClick={() => {
+              const el = document.querySelector("#footer") || document.querySelector("#achievements");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            [ Get In Touch ]
+          </button>
         </div>
       </div>
 
